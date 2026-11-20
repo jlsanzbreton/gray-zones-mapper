@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Gray Zones Mapper · Matriz</title>
+<meta name="description" content="Cuatro zonas grises (Over-reliance, Ownership, Uncertainty, Constraints), un código de cuatro cifras y una recta que muestra dónde cojea el proyecto.">
+<meta name="theme-color" content="#000206">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="Gray Zones">
+<meta property="og:title" content="Gray Zones Mapper · Matriz">
+<meta property="og:description" content="Elige un número por zona gris y mira dónde cojea el proyecto.">
+<meta property="og:image" content="https://grayzonesmapper.com/icons/og-image.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Paleta corporativa Gray Zones: fondo oscuro, texto crema, Inter. */
+:root{
+  --paper:#000206; --grid:transparent; --panel:#0d0f14; --line:#23272f;
+  --ink:#FBEDD4; --ink-soft:#c8b99a; --text:#FBEDD4; --muted:#9a917e;
+  --bad:#e8564a; --bad-bg:#2a1510; --good:#5cb870; --good-bg:#0f2218;
+  --mark:#d4a054; --mark-text:#000206;
+  --display:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --paper:#FBEDD4; --grid:transparent; --panel:#f0e2c8; --line:#d6c9ab;
+    --ink:#000206; --ink-soft:#3a3526; --text:#000206; --muted:#635c4a;
+    --bad:#b3261e; --bad-bg:#f7d9d5; --good:#2b7a3d; --good-bg:#d9eddb;
+    --mark:#a07030; --mark-text:#FBEDD4;
+    color-scheme:light;
+  }
+}
+:root[data-theme="light"]{
+  --paper:#FBEDD4; --grid:transparent; --panel:#f0e2c8; --line:#d6c9ab;
+  --ink:#000206; --ink-soft:#3a3526; --text:#000206; --muted:#635c4a;
+  --bad:#b3261e; --bad-bg:#f7d9d5; --good:#2b7a3d; --good-bg:#d9eddb;
+  --mark:#a07030; --mark-text:#FBEDD4;
+  color-scheme:light;
+}
+body{
+  background-color:var(--paper);
+  color:var(--text); font:15px/1.55 var(--body);
+  margin:0;
+}
+.wrap{max-width:1120px;margin:0 auto;
+  padding-top:max(28px,env(safe-area-inset-top,0px));padding-bottom:max(56px,env(safe-area-inset-bottom,0px));
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header h1{font-family:var(--display);font-weight:700;font-size:clamp(1.8rem,5vw,2.6rem);line-height:1.1;margin:0 0 8px;color:var(--ink);letter-spacing:-.02em}
+header p{margin:0;max-width:64ch;color:var(--muted);font-size:16px}
+.presets{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 16px}
+.pill{font:500 13px var(--body);padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--text);cursor:pointer}
+.pill b{font-family:var(--display);font-size:14px;letter-spacing:.05em;margin-left:6px;color:var(--ink)}
+.pill[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.pill[aria-pressed="true"] b{color:var(--paper)}
+button:focus-visible,.seg input:focus-visible+label{outline:3px solid var(--mark);outline-offset:2px}
+.explorer{display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);gap:24px;align-items:start}
+.controls{display:grid;gap:12px;min-width:0}
+.zone{margin:0;padding:10px 14px 14px;background:var(--panel);border:1px solid var(--line);border-radius:8px;min-width:0}
+.zone legend{font-family:var(--display);font-weight:700;font-size:18px;color:var(--ink);padding:0 4px;line-height:1.2;letter-spacing:-.01em}
+.q{margin:0 0 8px;font-size:13px;color:var(--muted)}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.opt{position:relative}
+.opt input{position:absolute;inset:0;opacity:0;pointer-events:none}
+.opt label{display:block;text-align:center;padding:6px 0 8px;border:1.5px solid var(--line);border-radius:8px;
+  font-family:var(--display);font-size:18px;font-weight:700;line-height:1.2;color:var(--ink);cursor:pointer;background:var(--paper)}
+.opt input:checked+label{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.desc{margin:8px 0 0;font-size:13px;color:var(--text);min-height:2.6em}
+.figure{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px 12px 14px;min-width:0}
+.figure svg{display:block;width:100%;height:auto;max-height:80vh}
+.legend{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:13px;color:var(--muted);margin:8px 6px 0}
+.legend span{display:inline-flex;align-items:center}
+.dot{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--mark);color:var(--mark-text);font:700 12px var(--body);margin-right:7px}
+/* svg */
+.frame{fill:none;stroke:var(--ink);stroke-width:2.5}
+.dash{stroke:var(--ink-soft);stroke-width:1.2;stroke-dasharray:6 5;opacity:.7}
+.cell-bad{fill:var(--bad-bg)} .cell-ok{fill:var(--good-bg)}
+.hatch-l{stroke:var(--bad);stroke-width:1.6;opacity:.55}
+.mit{stroke:var(--good);stroke-width:3;fill:none}
+.mit-mini{stroke:var(--good);stroke-width:1.6;fill:none}
+.axis{stroke:var(--ink);stroke-width:1.6;fill:none}
+.f-ink{fill:var(--ink)} .f-good{fill:var(--good)}
+.zl{font-family:var(--display);font-weight:700;font-size:22px;fill:var(--ink);text-anchor:middle;dominant-baseline:middle}
+.ab{font-family:var(--body);font-size:20px;fill:var(--ink-soft);text-anchor:middle;dominant-baseline:middle}
+.ab.sel{fill:var(--mark);font-weight:700;font-size:26px}
+.cell-t{font-family:var(--display);font-weight:700;font-size:18px;text-anchor:middle}
+.proj{stroke:var(--mark);stroke-width:1.5;stroke-dasharray:3 5;opacity:.55}
+.seg-line{stroke:var(--mark);stroke-width:5;stroke-linecap:round}
+.seg-line.mini{stroke-width:3}
+.pt{fill:var(--mark);stroke:var(--panel);stroke-width:2}
+.pt-t{fill:var(--mark-text);font:700 15px var(--body);text-anchor:middle;dominant-baseline:central}
+.pt-t.mini{font-size:9px}
+/* lectura */
+.reading{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:24px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px 18px;min-width:0}
+.card h2{font-family:var(--display);font-weight:700;font-size:20px;line-height:1.2;margin:0 0 8px;color:var(--ink);letter-spacing:-.01em}
+.codebig{font-family:var(--display);font-weight:700;font-size:48px;letter-spacing:.07em;line-height:1;color:var(--ink);margin:0 0 4px}
+.sub{font-size:13px;color:var(--muted);margin:0 0 10px}
+.total{font-size:15px;margin:0 0 4px}.total strong{font-family:var(--display);font-size:26px;color:var(--mark)}.total span{color:var(--muted);font-size:13px}
+.bar{position:relative;height:10px;border-radius:999px;background:linear-gradient(90deg,var(--good-bg),var(--paper),var(--bad-bg));border:1px solid var(--line);margin:20px 8px 6px}
+.bar i{position:absolute;top:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:var(--mark);border:3px solid var(--panel);box-shadow:0 0 0 1px var(--mark)}
+.barlabels{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin:0 2px 12px}
+.card p{margin:0 0 10px}
+.shape-name{font-weight:600;color:var(--text)}
+.list{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.list li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;font-size:14px}
+.tag{font:600 11px var(--body);letter-spacing:.04em;text-transform:uppercase;padding:3px 8px;border-radius:999px;white-space:nowrap;margin-top:2px}
+.t-bad{background:var(--bad-bg);color:var(--bad)} .t-mid{background:var(--line);color:var(--text)} .t-ok{background:var(--good-bg);color:var(--good)}
+.alerts{margin:12px 0 0;font-size:13px;color:var(--muted)}
+.alerts strong{color:var(--text)}
+/* guía */
+.guide{margin-top:40px}
+.guide h2{font-family:var(--display);font-weight:700;font-size:24px;margin:0 0 4px;color:var(--ink);letter-spacing:-.01em}
+.guide>p{margin:0 0 18px;color:var(--muted);max-width:70ch}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px;display:grid;gap:8px;align-content:start;min-width:0}
+.tile svg{width:100%;max-width:190px;height:auto;margin:0 auto;display:block}
+.tile h3{font-family:var(--display);font-weight:700;font-size:17px;line-height:1.2;margin:0;color:var(--ink)}
+.tile p{margin:0;font-size:13.5px;color:var(--text)}
+.tile .pill{justify-self:start}
+.note{margin-top:28px;font-size:13px;color:var(--muted);max-width:75ch}
+.back{display:inline-block;margin:0 0 14px;font-size:13px;color:var(--muted);text-decoration:none}
+.back:hover,.back:focus-visible{color:var(--ink);text-decoration:underline}
+.foot{margin-top:20px;font-size:13px;color:var(--muted)}
+.foot a{color:var(--muted)}
+@media (max-width:900px){
+  .explorer{grid-template-columns:minmax(0,1fr)}
+  .figure{order:-1}
+  .reading{grid-template-columns:minmax(0,1fr)}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap" id="top">
+  <a class="back" href="/">← Qué es Gray Zones</a>
+  <header>
+    <div style="display:flex;align-items:center;gap:.5rem;justify-content:center;flex-wrap:wrap">
+      <svg width="36" height="36" viewBox="0 0 1024 1024" fill="none" aria-hidden="true" style="flex-shrink:0"><path d="M559.873 468.694L563.931 457.194C565.453 452.884 570.72 451.29 574.376 454.032C574.791 454.343 575.168 454.7 575.501 455.097L583.698 464.87C586.526 468.242 588.52 472.234 589.517 476.521L593 491.5L594.906 504.082C595.3 506.681 595.326 509.323 594.983 511.929L593.27 524.949C593.09 526.314 592.81 527.665 592.432 528.989L589.031 540.89C588.347 543.286 587.346 545.58 586.054 547.71L580.049 557.619C578.69 559.862 577.022 561.903 575.095 563.681L567.463 570.726C565.827 572.237 564.016 573.547 562.07 574.628L550.013 581.326C548.012 582.438 545.882 583.3 543.671 583.893L530.065 587.544C527.699 588.178 525.259 588.5 522.809 588.5H505.301C503.108 588.5 500.922 588.242 498.789 587.732L481.235 583.535C479.748 583.179 478.292 582.702 476.882 582.108L462.131 575.897C460.713 575.3 459.346 574.587 458.045 573.765L444.295 565.081C442.109 563.7 440.125 562.024 438.399 560.098L416.338 535.492C415.447 534.499 414.629 533.443 413.888 532.332L406.505 521.258C405.539 519.808 404.779 518.241 404.018 516.673L403.937 516.506C403.307 515.208 402.27 513.405 400 510C393.017 499.526 391.584 484.517 389.806 472.085C389.608 470.695 389.5 469.295 389.5 467.891V436.5L392 418L398.5 393.5L407 369.5L414.062 355.376C414.686 354.127 415.404 352.927 416.207 351.784L424.5 340L439.5 324L456.877 307.514C458.289 306.175 459.836 304.987 461.493 303.969L494 284L510 276.5C526.328 266.295 546.306 265.332 565 266C569.311 266.154 572.724 266.56 575.357 267.058C580.251 267.984 585.084 269.965 589.986 270.848L604.175 273.402C606.384 273.799 608.534 274.463 610.59 275.362C618.608 278.872 630.746 284 632.5 284C667.459 284 720.686 350.513 729 381L741 415L748.016 446.339C748.338 447.777 748.546 449.239 748.638 450.71L751 488.5C750.695 492.776 748.5 544.5 744.5 544.5C744.1 544.5 738 563.5 735 573L713.329 620.491C712.117 623.147 710.497 625.598 708.528 627.753L676.356 662.969C675.122 664.32 673.758 665.546 672.285 666.631L629 698.5L588 722.5C582.5 725.667 570.6 732 567 732C555.041 732 543.099 736.338 531.5 739L511.322 742.706C508.458 743.232 505.53 743.308 502.642 742.932L472.5 739L443 732L417.702 722.965C415.906 722.323 414.179 721.5 412.55 720.507L383 702.5L350.682 678.375C348.571 676.8 346.693 674.934 345.104 672.834L333.5 657.5L317.581 638.999C315.869 637.01 314.459 634.785 313.268 632.445C310.74 627.481 306.46 619.82 301.5 613C284.123 589.106 276.815 555.046 268 527L262.192 510.916C261.731 509.64 261.364 508.333 261.093 507.004L256.5 484.5L253.5 460L252 437.5V392C253.291 377.474 254.362 362.933 256.5 348.5C258.727 333.469 261.8 318.555 264.529 303.604C264.845 301.872 265.317 300.173 265.947 298.529L274.957 275.026C275.98 272.358 277.405 269.862 279.183 267.625L292 251.5L323.948 214.853C325.312 213.289 326.845 211.882 328.52 210.656L346.5 197.5L369.5 178L396 161C427.35 145.659 461.906 126.678 496.5 120.5L530 114L591.456 110.129C592.817 110.043 594.182 110.058 595.541 110.166C611.234 111.406 627.334 112.006 642.5 116.5C656 120.5 659.5 120.5 670.5 123.5L724 143.5L750.5 156.5L773.5 170L802 190.5L824 209L841.5 225.5C847.833 231 861.4 243.4 865 249C875.767 265.749 884.999 283.518 894.5 301L907 332L917.883 367.489C918.294 368.828 918.603 370.195 918.81 371.581C924.181 407.6 930 443.994 930 480.5V544.841C930 546.278 929.889 547.713 929.669 549.134L925.5 576L919 607.5C908.719 636.629 896.274 664.216 884 692.5L860.5 734C843.491 756.324 826.897 779.603 807 799.5C788.944 817.556 766.721 831.726 746.178 846.767C745.059 847.586 743.885 848.326 742.66 848.975L696.283 873.555C695.096 874.184 693.865 874.727 692.6 875.18L626 899C597.102 904.942 567.725 913 538 913C505.446 913 473.07 910.654 440.582 908.658C438.864 908.552 437.16 908.29 435.491 907.873L366 890.5C350.667 884.833 317.5 872.2 307.5 867C281.435 853.446 257.416 835.543 232.831 819.354C230.953 818.118 229.223 816.671 227.686 815.03L185.5 770L152.5 723.5L134.083 694.222C133.362 693.076 132.725 691.878 132.177 690.64L122.336 668.389C121.779 667.131 121.316 665.835 120.951 664.509L113.5 637.5L106 602C104 594.5 99.3 576 96.5 562C96.1922 560.461 93.6174 537.365 93.4544 535.805C93.1755 533.135 93 530.182 93 527V474C93 445.473 96.1651 417.849 99 389.5C101.421 377.396 104.135 365.281 105.5 353C105.586 352.227 105.699 351.508 105.836 350.841C107.008 345.098 113.034 346.39 116.05 351.417C116.681 352.468 117.166 353.598 117.494 354.779L118.347 357.848C119.111 360.6 120.292 363.219 121.849 365.613L132.5 382L138.522 393.183C139.161 394.371 140.121 395.355 141.292 396.024C144.31 397.748 145.667 401.381 144.518 404.662L139.766 418.241C139.59 418.743 139.5 419.272 139.5 419.804C139.5 424.352 140.693 442.447 140.217 446.969C140.03 448.75 139.793 450.752 139.5 453C136.5 476 139.5 466 139.5 469.5V521C139.5 522.2 141.5 532.833 142.5 538L149 569.5C154.883 601.438 159.322 633.729 174.5 663C181.797 673.952 183.677 676.695 187.746 682.63L188 683L199.5 704.5L214.661 727.471C215.552 728.821 216.558 730.091 217.668 731.268L266.5 783L283.887 799.014C284.961 800.003 286.11 800.907 287.325 801.716L311 817.5C315.833 820.167 327.1 826.5 333.5 830.5C376.699 857.5 437.059 859.244 486 863.5H535.548C537.18 863.5 538.808 863.356 540.415 863.08C561.906 859.392 583.544 857.023 605 853L626 848C636.667 844.333 658.6 836.9 661 836.5C682.615 832.898 705.386 817.187 723.397 804.761L724.5 804L742 789.5L754.546 780.718C756.177 779.576 757.682 778.263 759.036 776.803C771.144 763.747 783.256 750.953 797 739.5C815 724.5 786.5 747.5 800.5 734C804.626 730.021 807.612 726.961 809.738 724.649C813.202 720.882 815.902 716.186 818.554 711.81L823.146 704.235C824.047 702.748 824.807 701.181 825.417 699.554L830.5 686L835.26 670.132C836.082 667.393 837.318 664.797 838.926 662.433L845 653.5L855 635.5L862.5 618.5C865.167 611 871.6 592.7 876 579.5C880.4 566.3 881.833 558.667 882 556.5C882 546.703 881.437 537.537 880.201 527.985C879.773 524.684 879.882 521.337 880.412 518.05C883.297 500.133 882 481.574 882 463.5L879.5 443C879.5 413.361 880.253 400.384 872 371.5C866.129 350.952 857.224 332.173 850.5 312C848 304.5 843 291 837 281.5C831 272 826 270.5 812 255.5C798 240.5 799 245.5 799 242C799 238.5 781.5 222 778.5 220.5C775.5 219 768.5 217.5 766.5 215C764.9 213 745.167 200.5 735.5 194.5L714.65 181.99C710.299 179.379 705.277 178.014 700.38 176.683L700.379 176.683C696.117 175.524 690.498 173.466 684 170C672 163.6 639 156.333 626 154.5C610 152.244 599.5 147 572.5 149.5C531.13 153.331 491.423 163.517 452.5 178L397.931 205.043C396.646 205.68 395.411 206.415 394.238 207.242L376.988 219.395C375.005 220.792 373.211 222.442 371.652 224.302L360.013 238.195C359.006 239.396 357.9 240.511 356.707 241.527L345 251.5L332.308 264.192C331.105 265.395 330.014 266.705 329.049 268.106L316.747 285.964C315.586 287.65 314.613 289.457 313.846 291.355L305.5 312L302.567 322.998C301.86 325.652 300.765 328.187 299.32 330.522L297.137 334.047C295.72 336.337 294.64 338.82 293.932 341.418L292.987 344.882C292.332 347.283 292 349.761 292 352.25V367.068C292 368.686 291.86 370.301 291.581 371.895L288.919 387.105C288.64 388.699 288.5 390.314 288.5 391.931V400.943C288.5 402.644 288.655 404.342 288.963 406.015L290.942 416.754C291.64 420.544 291.548 424.437 290.672 428.189L289.232 434.361C288.746 436.447 288.5 438.582 288.5 440.723V446.117C288.5 447.703 288.635 449.285 288.903 450.848L297.5 501L301.5 516.5L315 550L321.799 570.849C322.265 572.281 322.847 573.672 323.538 575.01L329.494 586.552C330.164 587.849 330.933 589.091 331.797 590.268L334.74 594.282C335.579 595.426 336.329 596.631 336.985 597.889L340.638 604.889C341.543 606.625 342.629 608.261 343.875 609.77L351.5 619L358.516 625.665C360.495 627.545 362.188 629.704 363.542 632.073L367.145 638.378C368.704 641.107 370.711 643.553 373.082 645.615L379.082 650.832C380.358 651.942 381.732 652.934 383.187 653.795L430.584 681.865C431.859 682.621 433.193 683.273 434.571 683.818L448.438 689.291C450.472 690.094 452.594 690.656 454.759 690.966L470.53 693.219C471.842 693.406 473.165 693.5 474.49 693.5H510.303C511.765 693.5 513.226 693.385 514.67 693.157L529.389 690.833C530.794 690.611 532.181 690.283 533.536 689.85L555 683C557.5 681.833 563 679.6 565 680C566.494 680.299 571.058 677.639 574.731 675.233C576.928 673.793 579.264 672.577 581.708 671.614C598.892 664.846 616.439 653.229 631 642.5L657.225 617.632C659.066 615.885 660.656 613.896 661.985 611.733C673.691 592.682 688.925 571.184 694.5 550L702 530.5L704.908 520.078C706.889 512.98 710.93 505.651 711.4 498.297C711.464 497.284 711.5 496.187 711.5 495C711.5 446.487 709.394 400.868 677.5 361C669.898 351.498 657.75 344.65 648 337.5C632.316 325.998 612.198 316.986 593.5 312L579.5 309C574.833 307.833 548.935 307.989 532 312C507.869 317.715 492.395 329.121 472.641 341.373C470.891 342.459 469.253 343.723 467.773 345.155L454.5 358L446.907 367.191C445.639 368.726 444.539 370.392 443.624 372.16L437.5 384L427.901 411.488C426.974 414.144 426.5 416.937 426.5 419.749C426.5 421.578 426.3 423.4 425.903 425.185L425.167 428.5C424.724 430.494 424.5 432.531 424.5 434.574V466.654C424.5 468.877 424.765 471.091 425.288 473.251L427.714 483.258C428.236 485.412 429.012 487.496 430.026 489.467L436.464 501.985C437.153 503.326 437.95 504.609 438.847 505.822L453.073 525.069C454.022 526.354 455.081 527.555 456.235 528.66L462.595 534.743C464.849 536.899 467.448 538.663 470.283 539.963L496.445 551.954C500.105 553.631 504.084 554.5 508.111 554.5H524.891C527.616 554.5 530.326 554.102 532.936 553.319L539.798 551.26C542.582 550.425 545.22 549.161 547.615 547.515L549.416 546.277C551.133 545.096 552.714 543.727 554.127 542.195L556.299 539.843C557.431 538.617 558.451 537.292 559.347 535.884L562.121 531.525C564.023 528.535 565.341 525.212 566.004 521.731L566.506 519.096C566.834 517.369 567 515.615 567 513.857V506.366C567 504.791 566.867 503.22 566.603 501.667L563.432 483.038C563.148 481.371 562.461 479.799 561.43 478.459C559.291 475.678 558.705 472.003 559.873 468.694Z" fill="currentColor" stroke="currentColor" stroke-width="25" stroke-linejoin="round"/></svg>
+      <h1>Gray Zones Mapper</h1>
+    </div>
+    <p>Cuatro zonas grises, un código de cuatro cifras y una recta que muestra dónde cojea el proyecto. Elige un número por zona y mira cómo se mueve.</p>
+  </header>
+
+  <div class="presets" id="presets" role="group" aria-label="Ejemplos"></div>
+
+  <div class="explorer">
+    <div class="controls" id="controls"></div>
+    <div class="figure">
+      <div id="fig"></div>
+      <div class="legend">
+        <span><i class="dot">1</i>Over-reliance + Ownership</span>
+        <span><i class="dot">2</i>Uncertainty + Constraints</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="reading" aria-live="polite">
+    <section class="card" id="c-pos"></section>
+    <section class="card" id="c-bal"></section>
+    <section class="card" id="c-shape"></section>
+    <section class="card" id="c-move"></section>
+  </div>
+
+  <section class="guide">
+    <h2>Cómo leer la recta</h2>
+    <p>Cada pareja de números da un punto: la mitad 1 junta Over-reliance y Ownership, la mitad 2 junta Uncertainty y Constraints. La recta que une los dos puntos cuenta lo que ni el código ni un solo punto dicen: si las dos mitades coinciden o se contradicen, y en qué.</p>
+    <div class="tiles" id="tiles"></div>
+  </section>
+
+  <p class="note">Es una heurística para provocar la conversación, no una medida. Que un proyecto sume 12 no lo condena y sumar 4 no garantiza nada: solo indica hacia dónde se inclinan las probabilidades. La suma resume, pero un solo 3 ya es una alerta aunque el total sea moderado. La lectura de las dos mitades es una hipótesis de trabajo para probar con casos reales.</p>
+  <p class="foot">Gray Zones Mapper · <a href="https://jlsanzbreton.com">José L. Sanz Bretón</a></p>
+</div>
+
+<script>
+(function(){
+  var ZONES=[
+    {k:'OR',name:'Over-reliance',q:'¿Qué pasa si lo que damos por sentado falla?',
+     d:{1:'Una o ninguna cosa dada por sentado sin revisar.',2:'2 cosas dadas por sentado sin revisar.',3:'3 o más: lo que siempre funcionó y no se audita.'}},
+    {k:'OW',name:'Ownership',q:'¿Cuántas fronteras entre sistemas necesitan dueño y cuántas no lo tienen?',
+     d:{1:'Una o ninguna frontera sin dueño.',2:'2 fronteras sin dueño.',3:'3 o más fronteras sin dueño.'}},
+    {k:'UN',name:'Uncertainty',q:'¿Qué estamos aceptando sin saberlo?',
+     d:{1:'Una o ninguna incertidumbre aceptada sin aclarar.',2:'2 incertidumbres aceptadas sin aclarar.',3:'3 o más: es jugar a la ruleta rusa.'}},
+    {k:'CO',name:'Constraints',q:'¿Qué límites afectarán a nuestro juicio?',
+     d:{1:'Uno o ninguno de los límites importantes (tiempo, dinero, personas). Lo ideal.',2:'2 límites importantes. Aceptable.',3:'3 límites importantes. Hay que reducirlos como sea.'}}
+  ];
+  var PRESETS=[['3332','Caso torre · antes'],['1112','Caso torre · después'],['3333','Peor caso'],['1111','Mejor caso']];
+  var H1='mitad 1 (Over-reliance + Ownership)', H2='mitad 2 (Uncertainty + Constraints)';
+  var TILES=[
+    {c:'3333',t:'Un punto',p:'Las dos mitades coinciden: diagnóstico coherente. Lo que importa es en qué casilla cae.'},
+    {c:'3332',t:'Horizontal',p:'Over-reliance y Uncertainty van a la par. Desentonan Ownership y Constraints: la estructura frente a la presión.'},
+    {c:'1131',t:'Vertical',p:'Ownership y Constraints van a la par. Desentonan Over-reliance y Uncertainty: lo que se sabe frente a lo que se da por sentado.'},
+    {c:'3311',t:'Paralela a la diagonal',p:'Mismo tipo de problema, distinta gravedad: una mitad está mucho peor que la otra.'},
+    {c:'3113',t:'Cruza la diagonal',p:'Misma gravedad, distinto tipo: una mitad falla por conocimiento y la otra por estructura.'},
+    {c:'2311',t:'Inclinada',p:'Las dos diferencias a la vez. Pesa más la que tenga más recorrido, horizontal o vertical.'}
+  ];
+  var uid=0, code='3332';
+
+  function lv(ch){return parseInt(ch,10);}
+  function vals(c){return {OR:lv(c[0]),OW:lv(c[1]),UN:lv(c[2]),CO:lv(c[3])};}
+  function geo(v){
+    var x1=v.OW,y1=v.OR,x2=v.CO,y2=v.UN;
+    return {x1:x1,y1:y1,x2:x2,y2:y2,dx:x2-x1,dy:y2-y1,mx:(x1+x2)/2,my:(y1+y2)/2};
+  }
+
+  function drawSquare(c,mini){
+    var id='u'+(++uid), v=vals(c), g=geo(v);
+    var W=mini?160:560, H=mini?160:530;
+    var S=mini?120:300, L=mini?20:130, T=mini?20:105, cs=S/3;
+    function X(gx){return L+gx*cs;} function Y(gy){return T+S-gy*cs;}
+    var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Mapa con el código '+c+'" xmlns="http://www.w3.org/2000/svg">';
+    s+='<defs><pattern id="h'+id+'" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line class="hatch-l" x1="0" y1="0" x2="0" y2="9"/></pattern>'+
+       '<marker id="mi'+id+'" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="f-ink" d="M0 0L10 5L0 10z"/></marker>'+
+       '<marker id="mg'+id+'" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path class="f-good" d="M0 0L10 5L0 10z"/></marker></defs>';
+    s+='<rect class="cell-bad" x="'+X(2)+'" y="'+Y(3)+'" width="'+cs+'" height="'+cs+'"/>';
+    s+='<rect x="'+X(2)+'" y="'+Y(3)+'" width="'+cs+'" height="'+cs+'" fill="url(#h'+id+')"/>';
+    s+='<rect class="cell-ok" x="'+X(0)+'" y="'+Y(1)+'" width="'+cs+'" height="'+cs+'"/>';
+    for(var i=1;i<3;i++){
+      s+='<line class="dash" x1="'+X(i)+'" y1="'+T+'" x2="'+X(i)+'" y2="'+(T+S)+'"/>';
+      s+='<line class="dash" x1="'+L+'" y1="'+Y(i)+'" x2="'+(L+S)+'" y2="'+Y(i)+'"/>';
+    }
+    s+='<rect class="frame" x="'+L+'" y="'+T+'" width="'+S+'" height="'+S+'"/>';
+    s+='<line class="'+(mini?'mit-mini':'mit')+'" x1="'+X(1.95)+'" y1="'+Y(1.95)+'" x2="'+X(0.65)+'" y2="'+Y(0.65)+'" marker-end="url(#mg'+id+')"/>';
+    if(!mini){
+      s+='<text class="cell-t" style="fill:var(--bad)" x="'+X(2.5)+'" y="'+(Y(3)+26)+'">No</text>';
+      s+='<text class="cell-t" style="fill:var(--good)" x="'+X(0.5)+'" y="'+(Y(0)-14)+'">ok</text>';
+      s+='<text style="font:500 14px var(--body);fill:var(--good)" text-anchor="middle" transform="translate('+X(1.62)+','+Y(1.0)+') rotate(-45)">mitigación</text>';
+      var Ls='123';
+      for(var i2=0;i2<3;i2++){
+        var l=Ls[i2];
+        s+='<text class="ab'+(v.OR==i2+1?' sel':'')+'" x="'+(L+S+24)+'" y="'+Y(i2+.5)+'">'+l+'</text>';
+        s+='<text class="ab'+(v.UN==i2+1?' sel':'')+'" x="'+(L-24)+'" y="'+Y(i2+.5)+'">'+l+'</text>';
+        s+='<text class="ab'+(v.OW==i2+1?' sel':'')+'" x="'+X(i2+.5)+'" y="'+(T-18)+'">'+l+'</text>';
+        s+='<text class="ab'+(v.CO==i2+1?' sel':'')+'" x="'+X(i2+.5)+'" y="'+(T+S+28)+'">'+l+'</text>';
+      }
+      s+='<line class="axis" x1="'+L+'" y1="'+(T-40)+'" x2="'+(L+S)+'" y2="'+(T-40)+'" marker-end="url(#mi'+id+')"/>';
+      s+='<line class="axis" x1="'+(L+S+48)+'" y1="'+(T+S)+'" x2="'+(L+S+48)+'" y2="'+T+'" marker-end="url(#mi'+id+')"/>';
+      s+='<line class="axis" x1="'+(L-48)+'" y1="'+(T+S)+'" x2="'+(L-48)+'" y2="'+T+'" marker-end="url(#mi'+id+')"/>';
+      s+='<line class="axis" x1="'+L+'" y1="'+(T+S+52)+'" x2="'+(L+S)+'" y2="'+(T+S+52)+'" marker-end="url(#mi'+id+')"/>';
+      s+='<text class="zl" x="'+(L+S/2)+'" y="'+(T-68)+'">Ownership</text>';
+      s+='<text class="zl" x="'+(L+S/2)+'" y="'+(T+S+90)+'">Constraints</text>';
+      s+='<text class="zl" transform="translate('+(L+S+84)+','+(T+S/2)+') rotate(90)">Over-reliance</text>';
+      s+='<text class="zl" transform="translate('+(L-84)+','+(T+S/2)+') rotate(-90)">Uncertainty</text>';
+    }
+    var p1x=X(g.x1-.5), p1y=Y(g.y1-.5), p2x=X(g.x2-.5), p2y=Y(g.y2-.5);
+    if(!mini){
+      s+='<line class="proj" x1="'+p1x+'" y1="'+p1y+'" x2="'+(L+S+10)+'" y2="'+p1y+'"/>';
+      s+='<line class="proj" x1="'+p1x+'" y1="'+p1y+'" x2="'+p1x+'" y2="'+(T-10)+'"/>';
+      s+='<line class="proj" x1="'+p2x+'" y1="'+p2y+'" x2="'+(L-10)+'" y2="'+p2y+'"/>';
+      s+='<line class="proj" x1="'+p2x+'" y1="'+p2y+'" x2="'+p2x+'" y2="'+(T+S+10)+'"/>';
+    }
+    s+='<line class="seg-line'+(mini?' mini':'')+'" x1="'+p1x+'" y1="'+p1y+'" x2="'+p2x+'" y2="'+p2y+'"/>';
+    var r=mini?8:17;
+    if(p1x===p2x && p1y===p2y){
+      s+='<circle class="pt" cx="'+p1x+'" cy="'+p1y+'" r="'+(mini?10:20)+'"/><text class="pt-t'+(mini?' mini':'')+'" x="'+p1x+'" y="'+p1y+'">1·2</text>';
+    }else{
+      s+='<circle class="pt" cx="'+p1x+'" cy="'+p1y+'" r="'+r+'"/><text class="pt-t'+(mini?' mini':'')+'" x="'+p1x+'" y="'+p1y+'">1</text>';
+      s+='<circle class="pt" cx="'+p2x+'" cy="'+p2y+'" r="'+r+'"/><text class="pt-t'+(mini?' mini':'')+'" x="'+p2x+'" y="'+p2y+'">2</text>';
+    }
+    return s+'</svg>';
+  }
+
+  function sgn(n){return n>0?1:(n<0?-1:0);}
+  function sideName(s){return s>0?'el conocimiento (lo que se sabe o se da por sentado)':(s<0?'la estructura (dueños y límites)':'ninguno de los dos lados (está equilibrada)');}
+  function hDir(dx){return dx<0?'La falta de dueño pesa más que las constraints: el problema es más de organización que de presión.':'Las constraints pesan más que la falta de dueño: hay más presión que desorganización.';}
+  function vDir(dy){return dy>0?'Predominan las incertidumbres aceptadas sin aclarar sobre lo dado por sentado.':'Predomina lo dado por sentado (lo que siempre funcionó) sobre las incertidumbres aceptadas.';}
+
+  function shape(g){
+    var dx=g.dx, dy=g.dy;
+    if(dx===0&&dy===0) return {t:'Un punto',x:'Las dos mitades cuentan la misma historia, así que el diagnóstico es coherente. Lo que importa es en qué casilla cae.'};
+    if(dy===0) return {t:'Horizontal',x:'Over-reliance y Uncertainty van a la par. Lo que desentona es Ownership frente a Constraints, la estructura frente a la presión. '+hDir(dx)};
+    if(dx===0) return {t:'Vertical',x:'Ownership y Constraints van a la par. Lo que desentona es Over-reliance frente a Uncertainty, lo dado por sentado frente a lo no resuelto. '+vDir(dy)};
+    if(dx===dy) return {t:'Paralela a la diagonal',x:'Las dos mitades tienen el mismo tipo de problema pero distinta gravedad. La '+(dx>0?H2+' está peor que la '+H1:H1+' está peor que la '+H2)+'.'};
+    if(dx===-dy) return {t:'Cruza la diagonal',x:'Misma gravedad, distinto tipo de problema. La '+H1+' falla sobre todo en '+sideName(sgn(g.y1-g.x1))+'; la '+H2+', en '+sideName(sgn(g.y2-g.x2))+'.'};
+    return {t:'Inclinada',x:'Las dos mitades difieren a la vez en estructura (Ownership frente a Constraints) y en conocimiento (Over-reliance frente a Uncertainty). Pesa más la diferencia '+(Math.abs(dx)>Math.abs(dy)?'horizontal. '+hDir(dx):'vertical. '+vDir(dy))};
+  }
+
+  function position(g){
+    var s=(g.mx+g.my)/2, pct=(s-1)/2*100, d=g.my-g.mx, near;
+    near=s<1.34?'Cerca de «ok»':(s>2.66?'Cerca de «No»':'En la zona intermedia');
+    var lado=d>0.25?'Por encima de la diagonal: el problema pesa más en el <strong>conocimiento</strong> (lo que se da por sentado y lo que no se ha resuelto).'
+      :(d<-0.25?'Por debajo de la diagonal: el problema pesa más en la <strong>estructura</strong> (dueños y límites).':'Sobre la diagonal: el problema está equilibrado entre conocimiento y estructura.');
+    return {pct:pct,near:near,lado:lado};
+  }
+
+  function moves(v){
+    var items=[];
+    function it(state,label,txt){items.push('<li><span class="tag '+state+'">'+label+'</span><span>'+txt+'</span></li>');}
+    if(v.OR===3)it('t-bad','Prioridad','<strong>Over-reliance</strong>: auditar lo que se da por sentado y no se revisa.'); else if(v.OR===2)it('t-mid','Vigilar','<strong>Over-reliance</strong>: revisar lo que siempre ha funcionado.'); else it('t-ok','En orden','<strong>Over-reliance</strong>.');
+    if(v.OW===3)it('t-bad','Prioridad','<strong>Ownership</strong>: nombrar un dueño para cada frontera clave.'); else if(v.OW===2)it('t-mid','Vigilar','<strong>Ownership</strong>: quedan fronteras clave sin dueño.'); else it('t-ok','En orden','<strong>Ownership</strong>.');
+    if(v.UN===3)it('t-bad','Prioridad','<strong>Uncertainty</strong>: aclarar o mitigar lo que se acepta sin saberlo.'); else if(v.UN===2)it('t-mid','Vigilar','<strong>Uncertainty</strong>: aclarar lo que aún se acepta sin saberlo.'); else it('t-ok','En orden','<strong>Uncertainty</strong>.');
+    if(v.CO===3)it('t-bad','Prioridad','<strong>Constraints</strong>: bajar a dos o a una, o neutralizar su efecto sobre el juicio.'); else if(v.CO===2)it('t-mid','Aceptable','<strong>Constraints</strong>: dos es aceptable, una es lo ideal.'); else it('t-ok','En orden','<strong>Constraints</strong>.');
+    return '<ul class="list">'+items.join('')+'</ul>';
+  }
+
+  function alerts(v){
+    var a=[];
+    if(v.OR===3)a.push('tres o más cosas dadas por sentado: más fácil que haya problemas');
+    if(v.OW===3)a.push('tres o más fronteras sin dueño: problema');
+    if(v.UN===3)a.push('tres o más incertidumbres aceptadas: ruleta rusa');
+    if(v.CO===3)a.push('tres límites importantes: hay que reducirlos');
+    if(v.OW===1)a.push('una o ninguna frontera sin dueño: casi todo bien');
+    return a.length?'<p class="alerts"><strong>Regla del 3:</strong> '+a.join('; ')+'.</p>':'<p class="alerts"><strong>Regla del 3:</strong> ninguna alerta.</p>';
+  }
+
+  function balHTML(v,ps){
+    var K=v.OR+v.UN, E=v.OW+v.CO;
+    return '<h2>Balance</h2><p class="total"><strong>'+K+'</strong> conocimiento <span>· Over-reliance + Uncertainty</span></p><p class="total"><strong>'+E+'</strong> estructura <span>· Ownership + Constraints</span></p><p>'+ps.lado+'</p>';
+  }
+  function focoLevel(g){
+    var m=Math.max(Math.abs(g.dx),Math.abs(g.dy));
+    return m===0?'Sin desajuste':(m===1?'Desajuste moderado':'Desajuste serio');
+  }
+  var fig=document.getElementById('fig');
+  function render(){
+    var v=vals(code), g=geo(v), sh=shape(g), ps=position(g), tot=v.OR+v.OW+v.UN+v.CO;
+    ZONES.forEach(function(z,i){
+      var ch=code[i], r=document.getElementById('r-'+z.k+'-'+ch);
+      if(r) r.checked=true;
+      document.getElementById('d-'+z.k).textContent=ch+' · '+z.d[ch];
+    });
+    document.querySelectorAll('#presets .pill').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.code===code?'true':'false');});
+    fig.innerHTML=drawSquare(code,false);
+    document.getElementById('c-pos').innerHTML=
+      '<h2>Nivel de gris</h2><p class="codebig">'+code+'</p><p class="sub">Over-reliance · Ownership · Uncertainty · Constraints</p><p class="total"><strong>'+tot+'</strong> puntos de 12 <span>· lo ideal es 4</span></p>'+
+      '<div class="bar"><i style="left:'+ps.pct.toFixed(1)+'%"></i></div><div class="barlabels"><span>ok</span><span>No</span></div>'+
+      '<p><span class="shape-name">'+ps.near+'.</span></p>';
+    document.getElementById('c-bal').innerHTML=balHTML(v,ps);
+    document.getElementById('c-shape').innerHTML=
+      '<h2>Foco</h2><p class="shape-name">'+focoLevel(g)+' · '+sh.t+'</p><p>'+sh.x+'</p>';
+    document.getElementById('c-move').innerHTML=
+      '<h2>Para llegar a 4 puntos</h2>'+moves(v)+alerts(v);
+  }
+
+  function setCode(c){
+    code=c; render();
+    try{ if(location.hash.slice(1)!==c) location.hash=c; }catch(e){}
+  }
+
+  // controles
+  var ctl=document.getElementById('controls'), html='';
+  ZONES.forEach(function(z){
+    html+='<fieldset class="zone"><legend>'+z.name+'</legend><p class="q">'+z.q+'</p><div class="seg" role="radiogroup" aria-label="'+z.name+'">';
+    '123'.split('').forEach(function(l){
+      html+='<div class="opt"><input type="radio" name="g-'+z.k+'" id="r-'+z.k+'-'+l+'" value="'+l+'"><label for="r-'+z.k+'-'+l+'">'+l+'</label></div>';
+    });
+    html+='</div><p class="desc" id="d-'+z.k+'"></p></fieldset>';
+  });
+  ctl.innerHTML=html;
+  ctl.addEventListener('change',function(e){
+    var t=e.target; if(!t||t.type!=='radio') return;
+    var i=-1; ZONES.forEach(function(z,k){ if(t.name==='g-'+z.k) i=k; });
+    if(i<0) return;
+    var a=code.split(''); a[i]=t.value; setCode(a.join(''));
+  });
+
+  // ejemplos
+  var pr=document.getElementById('presets'); html='';
+  PRESETS.forEach(function(p){ html+='<button type="button" class="pill" data-code="'+p[0]+'" aria-pressed="false">'+p[1]+'<b>'+p[0]+'</b></button>'; });
+  pr.innerHTML=html;
+  pr.addEventListener('click',function(e){ var b=e.target.closest('.pill'); if(b) setCode(b.dataset.code); });
+
+  // guía
+  var tl=document.getElementById('tiles'); html='';
+  TILES.forEach(function(t){
+    html+='<div class="tile">'+drawSquare(t.c,true)+'<h3>'+t.t+'</h3><p>'+t.p+'</p><button type="button" class="pill" data-code="'+t.c+'">Probar<b>'+t.c+'</b></button></div>';
+  });
+  tl.innerHTML=html;
+  tl.addEventListener('click',function(e){
+    var b=e.target.closest('.pill'); if(!b) return;
+    setCode(b.dataset.code);
+    document.getElementById('top').scrollIntoView();
+  });
+
+  function fromHash(){
+    var h=(location.hash||'').slice(1).toUpperCase();
+    return /^[123]{4}$/.test(h)?h:null;
+  }
+  window.addEventListener('hashchange',function(){ var h=fromHash(); if(h&&h!==code){code=h;render();} });
+  var h0=fromHash(); if(h0) code=h0;
+  render();
+})();
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function(){ navigator.serviceWorker.register('/sw.js').catch(function(){}); });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+.DS_Store
+.netlify/
+node_modules/
+# Exportación original del artifact (su contenido limpio vive en app/index.html)
+Gray Zones MapperV4.html
+.claude/

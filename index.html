@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Gray Zones Mapper</title>
+<meta name="description" content="Las zonas grises son aquellas a las que dedicamos insuficiente materia gris. Una matriz de cuatro lentes para ver dónde cojea un proyecto o una crisis.">
+<meta name="theme-color" content="#000206">
+<link rel="canonical" href="https://grayzonesmapper.com/">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icons/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="Gray Zones">
+<meta property="og:title" content="Gray Zones Mapper">
+<meta property="og:description" content="Cuatro lentes, un código de cuatro cifras y una recta que muestra dónde cojea el proyecto.">
+<meta property="og:image" content="https://grayzonesmapper.com/icons/og-image.png">
+<meta property="og:url" content="https://grayzonesmapper.com/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#000206; --panel:#0d0f14; --line:#23272f;
+  --ink:#FBEDD4; --text:#FBEDD4; --muted:#9a917e; --mark:#d4a054;
+  --font:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --paper:#FBEDD4; --panel:#f0e2c8; --line:#d6c9ab;
+    --ink:#000206; --text:#000206; --muted:#635c4a; --mark:#a07030;
+    color-scheme:light;
+  }
+}
+:root[data-theme="light"]{
+  --paper:#FBEDD4; --panel:#f0e2c8; --line:#d6c9ab;
+  --ink:#000206; --text:#000206; --muted:#635c4a; --mark:#a07030;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--text);font:16px/1.6 var(--font)}
+a{color:inherit}
+.wrap{max-width:1040px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+section{padding:56px 0;border-top:1px solid var(--line)}
+h2{font-size:clamp(1.4rem,3.5vw,1.9rem);line-height:1.2;letter-spacing:-.015em;margin:0 0 10px;color:var(--ink)}
+.lead{color:var(--muted);max-width:62ch;margin:0 0 28px}
+
+/* hero */
+.hero{padding:max(56px,env(safe-area-inset-top,0px)) 0 64px;text-align:center;border-top:0}
+.hero svg{width:96px;height:96px;color:var(--ink)}
+.hero h1{font-size:clamp(2.2rem,7vw,3.6rem);line-height:1.05;letter-spacing:-.03em;margin:18px 0 14px;color:var(--ink)}
+.hero .tag{font-size:clamp(1.05rem,2.6vw,1.3rem);max-width:40ch;margin:0 auto 10px}
+.hero .def{color:var(--muted);max-width:52ch;margin:0 auto 32px}
+.ctas{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.btn{display:inline-block;padding:13px 22px;border-radius:999px;font-weight:600;text-decoration:none;border:1.5px solid var(--ink)}
+.btn.primary{background:var(--ink);color:var(--paper)}
+.btn.ghost{color:var(--ink)}
+.btn:focus-visible,input:focus-visible,button:focus-visible{outline:3px solid var(--mark);outline-offset:2px}
+
+/* lentes */
+.lenses{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.lens{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px}
+.lens h3{margin:0 0 6px;font-size:1.15rem;color:var(--ink);letter-spacing:-.01em}
+.lens p{margin:0;color:var(--muted);font-size:.95rem}
+
+/* pasos */
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;counter-reset:s}
+.steps li{counter-increment:s;padding:18px;border:1px solid var(--line);border-radius:10px}
+.steps li::before{content:counter(s);display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;
+  background:var(--mark);color:var(--paper);font-weight:700;font-size:.9rem;margin-bottom:10px}
+.steps strong{display:block;color:var(--ink);margin-bottom:4px}
+.steps span{color:var(--muted);font-size:.95rem}
+.code{font-weight:700;letter-spacing:.08em;color:var(--ink)}
+
+/* usos */
+.uses{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.use{padding:18px;background:var(--panel);border:1px solid var(--line);border-radius:10px}
+.use h3{margin:0 0 6px;font-size:1.05rem;color:var(--ink)}
+.use p{margin:0 0 12px;color:var(--muted);font-size:.95rem}
+.use a{font-weight:600;color:var(--mark)}
+
+/* lista */
+.signup{display:flex;flex-wrap:wrap;gap:10px;max-width:520px}
+.signup input[type=email]{flex:1 1 240px;min-width:0;padding:12px 16px;border-radius:999px;border:1.5px solid var(--line);
+  background:var(--panel);color:var(--text);font:inherit}
+.signup button{padding:12px 22px;border-radius:999px;border:0;background:var(--ink);color:var(--paper);font:600 1rem var(--font);cursor:pointer}
+.hp{position:absolute;left:-9999px}
+.small{font-size:.85rem;color:var(--muted);margin-top:10px}
+
+footer{border-top:1px solid var(--line);padding:28px 0 max(36px,env(safe-area-inset-bottom,0px));color:var(--muted);font-size:.9rem}
+footer a{color:var(--muted)}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="hero">
+    <svg viewBox="0 0 1024 1024" fill="none" aria-hidden="true"><path d="M559.873 468.694L563.931 457.194C565.453 452.884 570.72 451.29 574.376 454.032C574.791 454.343 575.168 454.7 575.501 455.097L583.698 464.87C586.526 468.242 588.52 472.234 589.517 476.521L593 491.5L594.906 504.082C595.3 506.681 595.326 509.323 594.983 511.929L593.27 524.949C593.09 526.314 592.81 527.665 592.432 528.989L589.031 540.89C588.347 543.286 587.346 545.58 586.054 547.71L580.049 557.619C578.69 559.862 577.022 561.903 575.095 563.681L567.463 570.726C565.827 572.237 564.016 573.547 562.07 574.628L550.013 581.326C548.012 582.438 545.882 583.3 543.671 583.893L530.065 587.544C527.699 588.178 525.259 588.5 522.809 588.5H505.301C503.108 588.5 500.922 588.242 498.789 587.732L481.235 583.535C479.748 583.179 478.292 582.702 476.882 582.108L462.131 575.897C460.713 575.3 459.346 574.587 458.045 573.765L444.295 565.081C442.109 563.7 440.125 562.024 438.399 560.098L416.338 535.492C415.447 534.499 414.629 533.443 413.888 532.332L406.505 521.258C405.539 519.808 404.779 518.241 404.018 516.673L403.937 516.506C403.307 515.208 402.27 513.405 400 510C393.017 499.526 391.584 484.517 389.806 472.085C389.608 470.695 389.5 469.295 389.5 467.891V436.5L392 418L398.5 393.5L407 369.5L414.062 355.376C414.686 354.127 415.404 352.927 416.207 351.784L424.5 340L439.5 324L456.877 307.514C458.289 306.175 459.836 304.987 461.493 303.969L494 284L510 276.5C526.328 266.295 546.306 265.332 565 266C569.311 266.154 572.724 266.56 575.357 267.058C580.251 267.984 585.084 269.965 589.986 270.848L604.175 273.402C606.384 273.799 608.534 274.463 610.59 275.362C618.608 278.872 630.746 284 632.5 284C667.459 284 720.686 350.513 729 381L741 415L748.016 446.339C748.338 447.777 748.546 449.239 748.638 450.71L751 488.5C750.695 492.776 748.5 544.5 744.5 544.5C744.1 544.5 738 563.5 735 573L713.329 620.491C712.117 623.147 710.497 625.598 708.528 627.753L676.356 662.969C675.122 664.32 673.758 665.546 672.285 666.631L629 698.5L588 722.5C582.5 725.667 570.6 732 567 732C555.041 732 543.099 736.338 531.5 739L511.322 742.706C508.458 743.232 505.53 743.308 502.642 742.932L472.5 739L443 732L417.702 722.965C415.906 722.323 414.179 721.5 412.55 720.507L383 702.5L350.682 678.375C348.571 676.8 346.693 674.934 345.104 672.834L333.5 657.5L317.581 638.999C315.869 637.01 314.459 634.785 313.268 632.445C310.74 627.481 306.46 619.82 301.5 613C284.123 589.106 276.815 555.046 268 527L262.192 510.916C261.731 509.64 261.364 508.333 261.093 507.004L256.5 484.5L253.5 460L252 437.5V392C253.291 377.474 254.362 362.933 256.5 348.5C258.727 333.469 261.8 318.555 264.529 303.604C264.845 301.872 265.317 300.173 265.947 298.529L274.957 275.026C275.98 272.358 277.405 269.862 279.183 267.625L292 251.5L323.948 214.853C325.312 213.289 326.845 211.882 328.52 210.656L346.5 197.5L369.5 178L396 161C427.35 145.659 461.906 126.678 496.5 120.5L530 114L591.456 110.129C592.817 110.043 594.182 110.058 595.541 110.166C611.234 111.406 627.334 112.006 642.5 116.5C656 120.5 659.5 120.5 670.5 123.5L724 143.5L750.5 156.5L773.5 170L802 190.5L824 209L841.5 225.5C847.833 231 861.4 243.4 865 249C875.767 265.749 884.999 283.518 894.5 301L907 332L917.883 367.489C918.294 368.828 918.603 370.195 918.81 371.581C924.181 407.6 930 443.994 930 480.5V544.841C930 546.278 929.889 547.713 929.669 549.134L925.5 576L919 607.5C908.719 636.629 896.274 664.216 884 692.5L860.5 734C843.491 756.324 826.897 779.603 807 799.5C788.944 817.556 766.721 831.726 746.178 846.767C745.059 847.586 743.885 848.326 742.66 848.975L696.283 873.555C695.096 874.184 693.865 874.727 692.6 875.18L626 899C597.102 904.942 567.725 913 538 913C505.446 913 473.07 910.654 440.582 908.658C438.864 908.552 437.16 908.29 435.491 907.873L366 890.5C350.667 884.833 317.5 872.2 307.5 867C281.435 853.446 257.416 835.543 232.831 819.354C230.953 818.118 229.223 816.671 227.686 815.03L185.5 770L152.5 723.5L134.083 694.222C133.362 693.076 132.725 691.878 132.177 690.64L122.336 668.389C121.779 667.131 121.316 665.835 120.951 664.509L113.5 637.5L106 602C104 594.5 99.3 576 96.5 562C96.1922 560.461 93.6174 537.365 93.4544 535.805C93.1755 533.135 93 530.182 93 527V474C93 445.473 96.1651 417.849 99 389.5C101.421 377.396 104.135 365.281 105.5 353C105.586 352.227 105.699 351.508 105.836 350.841C107.008 345.098 113.034 346.39 116.05 351.417C116.681 352.468 117.166 353.598 117.494 354.779L118.347 357.848C119.111 360.6 120.292 363.219 121.849 365.613L132.5 382L138.522 393.183C139.161 394.371 140.121 395.355 141.292 396.024C144.31 397.748 145.667 401.381 144.518 404.662L139.766 418.241C139.59 418.743 139.5 419.272 139.5 419.804C139.5 424.352 140.693 442.447 140.217 446.969C140.03 448.75 139.793 450.752 139.5 453C136.5 476 139.5 466 139.5 469.5V521C139.5 522.2 141.5 532.833 142.5 538L149 569.5C154.883 601.438 159.322 633.729 174.5 663C181.797 673.952 183.677 676.695 187.746 682.63L188 683L199.5 704.5L214.661 727.471C215.552 728.821 216.558 730.091 217.668 731.268L266.5 783L283.887 799.014C284.961 800.003 286.11 800.907 287.325 801.716L311 817.5C315.833 820.167 327.1 826.5 333.5 830.5C376.699 857.5 437.059 859.244 486 863.5H535.548C537.18 863.5 538.808 863.356 540.415 863.08C561.906 859.392 583.544 857.023 605 853L626 848C636.667 844.333 658.6 836.9 661 836.5C682.615 832.898 705.386 817.187 723.397 804.761L724.5 804L742 789.5L754.546 780.718C756.177 779.576 757.682 778.263 759.036 776.803C771.144 763.747 783.256 750.953 797 739.5C815 724.5 786.5 747.5 800.5 734C804.626 730.021 807.612 726.961 809.738 724.649C813.202 720.882 815.902 716.186 818.554 711.81L823.146 704.235C824.047 702.748 824.807 701.181 825.417 699.554L830.5 686L835.26 670.132C836.082 667.393 837.318 664.797 838.926 662.433L845 653.5L855 635.5L862.5 618.5C865.167 611 871.6 592.7 876 579.5C880.4 566.3 881.833 558.667 882 556.5C882 546.703 881.437 537.537 880.201 527.985C879.773 524.684 879.882 521.337 880.412 518.05C883.297 500.133 882 481.574 882 463.5L879.5 443C879.5 413.361 880.253 400.384 872 371.5C866.129 350.952 857.224 332.173 850.5 312C848 304.5 843 291 837 281.5C831 272 826 270.5 812 255.5C798 240.5 799 245.5 799 242C799 238.5 781.5 222 778.5 220.5C775.5 219 768.5 217.5 766.5 215C764.9 213 745.167 200.5 735.5 194.5L714.65 181.99C710.299 179.379 705.277 178.014 700.38 176.683L700.379 176.683C696.117 175.524 690.498 173.466 684 170C672 163.6 639 156.333 626 154.5C610 152.244 599.5 147 572.5 149.5C531.13 153.331 491.423 163.517 452.5 178L397.931 205.043C396.646 205.68 395.411 206.415 394.238 207.242L376.988 219.395C375.005 220.792 373.211 222.442 371.652 224.302L360.013 238.195C359.006 239.396 357.9 240.511 356.707 241.527L345 251.5L332.308 264.192C331.105 265.395 330.014 266.705 329.049 268.106L316.747 285.964C315.586 287.65 314.613 289.457 313.846 291.355L305.5 312L302.567 322.998C301.86 325.652 300.765 328.187 299.32 330.522L297.137 334.047C295.72 336.337 294.64 338.82 293.932 341.418L292.987 344.882C292.332 347.283 292 349.761 292 352.25V367.068C292 368.686 291.86 370.301 291.581 371.895L288.919 387.105C288.64 388.699 288.5 390.314 288.5 391.931V400.943C288.5 402.644 288.655 404.342 288.963 406.015L290.942 416.754C291.64 420.544 291.548 424.437 290.672 428.189L289.232 434.361C288.746 436.447 288.5 438.582 288.5 440.723V446.117C288.5 447.703 288.635 449.285 288.903 450.848L297.5 501L301.5 516.5L315 550L321.799 570.849C322.265 572.281 322.847 573.672 323.538 575.01L329.494 586.552C330.164 587.849 330.933 589.091 331.797 590.268L334.74 594.282C335.579 595.426 336.329 596.631 336.985 597.889L340.638 604.889C341.543 606.625 342.629 608.261 343.875 609.77L351.5 619L358.516 625.665C360.495 627.545 362.188 629.704 363.542 632.073L367.145 638.378C368.704 641.107 370.711 643.553 373.082 645.615L379.082 650.832C380.358 651.942 381.732 652.934 383.187 653.795L430.584 681.865C431.859 682.621 433.193 683.273 434.571 683.818L448.438 689.291C450.472 690.094 452.594 690.656 454.759 690.966L470.53 693.219C471.842 693.406 473.165 693.5 474.49 693.5H510.303C511.765 693.5 513.226 693.385 514.67 693.157L529.389 690.833C530.794 690.611 532.181 690.283 533.536 689.85L555 683C557.5 681.833 563 679.6 565 680C566.494 680.299 571.058 677.639 574.731 675.233C576.928 673.793 579.264 672.577 581.708 671.614C598.892 664.846 616.439 653.229 631 642.5L657.225 617.632C659.066 615.885 660.656 613.896 661.985 611.733C673.691 592.682 688.925 571.184 694.5 550L702 530.5L704.908 520.078C706.889 512.98 710.93 505.651 711.4 498.297C711.464 497.284 711.5 496.187 711.5 495C711.5 446.487 709.394 400.868 677.5 361C669.898 351.498 657.75 344.65 648 337.5C632.316 325.998 612.198 316.986 593.5 312L579.5 309C574.833 307.833 548.935 307.989 532 312C507.869 317.715 492.395 329.121 472.641 341.373C470.891 342.459 469.253 343.723 467.773 345.155L454.5 358L446.907 367.191C445.639 368.726 444.539 370.392 443.624 372.16L437.5 384L427.901 411.488C426.974 414.144 426.5 416.937 426.5 419.749C426.5 421.578 426.3 423.4 425.903 425.185L425.167 428.5C424.724 430.494 424.5 432.531 424.5 434.574V466.654C424.5 468.877 424.765 471.091 425.288 473.251L427.714 483.258C428.236 485.412 429.012 487.496 430.026 489.467L436.464 501.985C437.153 503.326 437.95 504.609 438.847 505.822L453.073 525.069C454.022 526.354 455.081 527.555 456.235 528.66L462.595 534.743C464.849 536.899 467.448 538.663 470.283 539.963L496.445 551.954C500.105 553.631 504.084 554.5 508.111 554.5H524.891C527.616 554.5 530.326 554.102 532.936 553.319L539.798 551.26C542.582 550.425 545.22 549.161 547.615 547.515L549.416 546.277C551.133 545.096 552.714 543.727 554.127 542.195L556.299 539.843C557.431 538.617 558.451 537.292 559.347 535.884L562.121 531.525C564.023 528.535 565.341 525.212 566.004 521.731L566.506 519.096C566.834 517.369 567 515.615 567 513.857V506.366C567 504.791 566.867 503.22 566.603 501.667L563.432 483.038C563.148 481.371 562.461 479.799 561.43 478.459C559.291 475.678 558.705 472.003 559.873 468.694Z" fill="currentColor" stroke="currentColor" stroke-width="25" stroke-linejoin="round"/></svg>
+    <h1>Gray Zones Mapper</h1>
+    <p class="tag">Cuatro lentes, un código de cuatro cifras y una recta que muestra dónde cojea un proyecto.</p>
+    <p class="def">Las zonas grises son aquellas a las que dedicamos insuficiente materia gris. Esta matriz te ayuda a verlas antes de que se conviertan en el problema.</p>
+    <div class="ctas">
+      <a class="btn primary" href="/app/">Abrir la matriz</a>
+      <a class="btn ghost" href="/app/#3332">Ver un caso real</a>
+    </div>
+  </header>
+
+  <section aria-labelledby="t-lentes">
+    <h2 id="t-lentes">Las cuatro lentes</h2>
+    <p class="lead">Cada lente es una pregunta incómoda. La respondes con un número del 1 al 3: cuantas más cosas encuentres, más alto.</p>
+    <div class="lenses">
+      <article class="lens"><h3>Over-reliance</h3><p>¿Qué pasa si lo que damos por sentado falla?</p></article>
+      <article class="lens"><h3>Ownership</h3><p>¿Cuántas fronteras entre sistemas necesitan dueño y cuántas no lo tienen?</p></article>
+      <article class="lens"><h3>Uncertainty</h3><p>¿Qué estamos aceptando sin saberlo?</p></article>
+      <article class="lens"><h3>Constraints</h3><p>¿Qué límites (tiempo, dinero, personas) afectarán a nuestro juicio?</p></article>
+    </div>
+  </section>
+
+  <section aria-labelledby="t-como">
+    <h2 id="t-como">Cómo funciona</h2>
+    <p class="lead">Lleva un par de minutos. La conversación que provoca suele llevar bastante más.</p>
+    <ol class="steps">
+      <li><strong>Puntúa cada lente</strong><span>Del 1 (una o ninguna) al 3 (tres o más). Sin decimales ni matices: obliga a decidir.</span></li>
+      <li><strong>Obtén tu código</strong><span>Cuatro cifras, como <span class="code">3332</span>. Lo ideal es <span class="code">1111</span>; cualquier 3 ya es una alerta.</span></li>
+      <li><strong>Lee la recta</strong><span>Dos puntos en la matriz y la recta que los une. Te dice si el problema es de conocimiento o de estructura, y qué atacar primero.</span></li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="t-usos">
+    <h2 id="t-usos">Para cuándo</h2>
+    <p class="lead">Es una heurística para provocar la conversación, no una medida. Funciona mejor cuando hay presión y poca claridad.</p>
+    <div class="uses">
+      <article class="use"><h3>Gestión de crisis</h3><p>Cuando todo arde, un código compartido ordena la conversación: qué damos por sentado, quién es dueño de qué, qué no sabemos.</p><a href="/app/#3333">Probar con 3333</a></article>
+      <article class="use"><h3>Revisión de proyectos</h3><p>Antes y después de una decisión. Compara códigos y mira si la recta se acerca a «ok».</p><a href="/app/#1112">Ver el «después» de un caso</a></article>
+      <article class="use"><h3>Equipos y talleres</h3><p>Cada persona puntúa por separado y luego se comparan los códigos. Las diferencias son lo interesante.</p><a href="/app/">Abrir la matriz</a></article>
+    </div>
+    <p class="small">Cada código tiene su propio enlace (por ejemplo, <a href="/app/#3332">grayzonesmapper.com/app/#3332</a>), así que puedes compartir un diagnóstico tal cual. Se puede instalar en el móvil o el ordenador desde el navegador («Añadir a pantalla de inicio») y funciona sin conexión.</p>
+  </section>
+
+  <section aria-labelledby="t-lista" id="lista">
+    <h2 id="t-lista">Novedades de Gray Zones</h2>
+    <p class="lead">Estoy preparando más material: casos, vídeos y un curso. Si quieres enterarte, deja tu correo. Nada de spam.</p>
+    <form class="signup" name="lista" method="POST" action="/gracias/" data-netlify="true" netlify-honeypot="empresa">
+      <input type="hidden" name="form-name" value="lista">
+      <p class="hp"><label>No rellenar <input name="empresa" tabindex="-1" autocomplete="off"></label></p>
+      <label for="email" class="hp">Correo electrónico</label>
+      <input id="email" type="email" name="email" required placeholder="tu@correo.com" autocomplete="email">
+      <button type="submit">Apuntarme</button>
+    </form>
+    <p class="small">Solo uso tu correo para avisarte de novedades de Gray Zones. Puedes darte de baja cuando quieras.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Gray Zones · <a href="https://jlsanzbreton.com">José L. Sanz Bretón</a></div>
+</footer>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function(){ navigator.serviceWorker.register('/sw.js').catch(function(){}); });
+}
+</script>
+</body>
+</html>
