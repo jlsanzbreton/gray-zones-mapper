@@ -101,6 +101,8 @@ button:focus-visible,.seg input:focus-visible+label{outline:3px solid var(--mark
 .reading{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:24px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px 18px;min-width:0}
 .card h2{font-family:var(--display);font-weight:700;font-size:20px;line-height:1.2;margin:0 0 8px;color:var(--ink);letter-spacing:-.01em}
+.card.key{border-top:3px solid var(--mark)}
+.card h2 .num{display:inline-grid;place-items:center;min-width:2em;height:1.6em;padding:0 .4em;margin-right:10px;border-radius:6px;background:var(--mark);color:var(--mark-text);font-size:14px;letter-spacing:.06em;vertical-align:2px}
 .codebig{font-family:var(--display);font-weight:700;font-size:48px;letter-spacing:.07em;line-height:1;color:var(--ink);margin:0 0 4px}
 .sub{font-size:13px;color:var(--muted);margin:0 0 10px}
 .total{font-size:15px;margin:0 0 4px}.total strong{font-family:var(--display);font-size:26px;color:var(--mark)}.total span{color:var(--muted);font-size:13px}
@@ -163,9 +165,9 @@ button:focus-visible,.seg input:focus-visible+label{outline:3px solid var(--mark
   </div>
 
   <div class="reading" aria-live="polite">
-    <section class="card" id="c-pos"></section>
-    <section class="card" id="c-bal"></section>
-    <section class="card" id="c-shape"></section>
+    <section class="card key" id="c-pos"></section>
+    <section class="card key" id="c-bal"></section>
+    <section class="card key" id="c-shape"></section>
     <section class="card" id="c-move"></section>
   </div>
 
@@ -182,16 +184,16 @@ button:focus-visible,.seg input:focus-visible+label{outline:3px solid var(--mark
 <script>
 (function(){
   var ZONES=[
-    {k:'OR',name:'Over-reliance',q:'¿Qué pasa si lo que damos por sentado falla?',
-     d:{1:'Una o ninguna cosa dada por sentado sin revisar.',2:'2 cosas dadas por sentado sin revisar.',3:'3 o más: lo que siempre funcionó y no se audita.'}},
-    {k:'OW',name:'Ownership',q:'¿Cuántas fronteras entre sistemas necesitan dueño y cuántas no lo tienen?',
+    {k:'OR',name:'Over-reliance',q:'¿Qué elementos críticos estamos dando por sentado que funcionarán según lo previsto?',
+     d:{1:'Uno o ningún elemento crítico dado por sentado.',2:'2 elementos críticos dados por sentado.',3:'3 o más: lo que siempre funcionó y no se audita.'}},
+    {k:'OW',name:'Ownership',q:'¿Qué fronteras entre sistemas necesitan dueño y no lo tienen?',
      d:{1:'Una o ninguna frontera sin dueño.',2:'2 fronteras sin dueño.',3:'3 o más fronteras sin dueño.'}},
-    {k:'UN',name:'Uncertainty',q:'¿Qué estamos aceptando sin saberlo?',
-     d:{1:'Una o ninguna incertidumbre aceptada sin aclarar.',2:'2 incertidumbres aceptadas sin aclarar.',3:'3 o más: es jugar a la ruleta rusa.'}},
+    {k:'UN',name:'Uncertainty',q:'¿Qué zonas de incertidumbre estamos asumiendo sin escrutinio?',
+     d:{1:'Una o ninguna zona de incertidumbre sin escrutar.',2:'2 zonas de incertidumbre sin escrutar.',3:'3 o más: es jugar a la ruleta rusa.'}},
     {k:'CO',name:'Constraints',q:'¿Qué límites afectarán a nuestro juicio?',
      d:{1:'Uno o ninguno de los límites importantes (tiempo, dinero, personas). Lo ideal.',2:'2 límites importantes. Aceptable.',3:'3 límites importantes. Hay que reducirlos como sea.'}}
   ];
-  var PRESETS=[['3332','Caso torre · antes'],['1112','Caso torre · después'],['3333','Peor caso'],['1111','Mejor caso']];
+  var PRESETS=[['3121','Migración confiada · conocimiento'],['1213','Fusión de equipos · estructura'],['3333','Peor caso'],['1111','Mejor caso']];
   var H1='mitad 1 (Over-reliance + Ownership)', H2='mitad 2 (Uncertainty + Constraints)';
   var TILES=[
     {c:'3333',t:'Un punto',p:'Las dos mitades coinciden: diagnóstico coherente. Lo que importa es en qué casilla cae.'},
@@ -201,7 +203,7 @@ button:focus-visible,.seg input:focus-visible+label{outline:3px solid var(--mark
     {c:'3113',t:'Cruza la diagonal',p:'Misma gravedad, distinto tipo: una mitad falla por conocimiento y la otra por estructura.'},
     {c:'2311',t:'Inclinada',p:'Las dos diferencias a la vez. Pesa más la que tenga más recorrido, horizontal o vertical.'}
   ];
-  var uid=0, code='3332';
+  var uid=0, code='3121';
 
   function lv(ch){return parseInt(ch,10);}
   function vals(c){return {OR:lv(c[0]),OW:lv(c[1]),UN:lv(c[2]),CO:lv(c[3])};}
@@ -312,7 +314,7 @@ button:focus-visible,.seg input:focus-visible+label{outline:3px solid var(--mark
 
   function balHTML(v,ps){
     var K=v.OR+v.UN, E=v.OW+v.CO;
-    return '<h2>Balance</h2><p class="total"><strong>'+K+'</strong> conocimiento <span>· Over-reliance + Uncertainty</span></p><p class="total"><strong>'+E+'</strong> estructura <span>· Ownership + Constraints</span></p><p>'+ps.lado+'</p>';
+    return '<h2><span class="num">II</span>Balance</h2><p class="total"><strong>'+K+'</strong> conocimiento <span>· Over-reliance + Uncertainty</span></p><p class="total"><strong>'+E+'</strong> estructura <span>· Ownership + Constraints</span></p><p>'+ps.lado+'</p>';
   }
   function focoLevel(g){
     var m=Math.max(Math.abs(g.dx),Math.abs(g.dy));
@@ -329,12 +331,12 @@ button:focus-visible,.seg input:focus-visible+label{outline:3px solid var(--mark
     document.querySelectorAll('#presets .pill').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.code===code?'true':'false');});
     fig.innerHTML=drawSquare(code,false);
     document.getElementById('c-pos').innerHTML=
-      '<h2>Nivel de gris</h2><p class="codebig">'+code+'</p><p class="sub">Over-reliance · Ownership · Uncertainty · Constraints</p><p class="total"><strong>'+tot+'</strong> puntos de 12 <span>· lo ideal es 4</span></p>'+
+      '<h2><span class="num">I</span>Nivel de gris</h2><p class="codebig">'+code+'</p><p class="sub">Over-reliance · Ownership · Uncertainty · Constraints</p><p class="total"><strong>'+tot+'</strong> puntos de 12 <span>· lo ideal es 4</span></p>'+
       '<div class="bar"><i style="left:'+ps.pct.toFixed(1)+'%"></i></div><div class="barlabels"><span>ok</span><span>No</span></div>'+
       '<p><span class="shape-name">'+ps.near+'.</span></p>';
     document.getElementById('c-bal').innerHTML=balHTML(v,ps);
     document.getElementById('c-shape').innerHTML=
-      '<h2>Foco</h2><p class="shape-name">'+focoLevel(g)+' · '+sh.t+'</p><p>'+sh.x+'</p>';
+      '<h2><span class="num">III</span>Foco</h2><p class="shape-name">'+focoLevel(g)+' · '+sh.t+'</p><p>'+sh.x+'</p>';
     document.getElementById('c-move').innerHTML=
       '<h2>Para llegar a 4 puntos</h2>'+moves(v)+alerts(v);
   }
