@@ -142,9 +142,10 @@ footer a{color:var(--muted)}
   </section>
 
   <section aria-labelledby="t-contacto" id="contacto">
-    <h2 id="t-contacto">¿Quieres saber más?</h2>
-    <p class="lead">Si te interesa y quieres saber más sobre cómo implementar Gray Zones en tu equipo o en tu organización, escríbeme.</p>
-    <a class="btn primary" href="mailto:hola@jlsanzbreton.com?subject=Gray%20Zones">hola@jlsanzbreton.com</a>
+    <h2 id="t-contacto">¿Comentarios o preguntas?</h2>
+    <p class="lead">Gray Zones es un método en desarrollo. Si lo usas, te surge una duda o tienes una idea para mejorarlo, me encantará leerte.</p>
+    <a class="btn primary js-mail" data-u="hola" data-d="grayzonesmapper.com" data-s="Gray Zones" href="/legal/">Escríbeme</a>
+    <noscript><p class="small">hola [arroba] grayzonesmapper.com</p></noscript>
   </section>
 </main>
 
@@ -152,10 +153,6 @@ footer a{color:var(--muted)}
   <div class="wrap">Gray Zones · <a href="https://jlsanzbreton.com">José L. Sanz Bretón</a> · <a href="/legal/">Aviso legal y privacidad</a></div>
 </footer>
 
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function(){ navigator.serviceWorker.register('/sw.js').catch(function(){}); });
-}
-</script>
+<script src="/site.js" defer></script>
 </body>
 </html>

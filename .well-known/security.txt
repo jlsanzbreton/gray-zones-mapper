@@ -1,0 +1,6 @@
+# Si encuentras un problema de seguridad en este sitio, escríbeme.
+# If you find a security issue on this site, please write to me.
+Contact: mailto:hola@grayzonesmapper.com
+Expires: 2027-11-21T00:00:00.000Z
+Preferred-Languages: es, en
+Canonical: https://grayzonesmapper.com/.well-known/security.txt

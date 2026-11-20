@@ -35,3 +35,12 @@ Si cambias un archivo que el service worker guarda (las páginas o los iconos), 
 - `dev`: trabajo diario. Netlify publica una vista previa por rama.
 
 Se trabaja en `dev` y se fusiona en `main` cuando está listo.
+
+## Seguridad
+
+- Sin backend, sin formularios, sin dependencias de npm y sin scripts de terceros: todo se sirve desde este dominio.
+- Sin JavaScript inline: el código está en `site.js` y `app/app.js`, y así la Content-Security-Policy puede ser estricta (`script-src 'self'`).
+- Cabeceras en `netlify.toml`: CSP, HSTS, `X-Frame-Options: DENY`, `nosniff`, `Referrer-Policy`, `Permissions-Policy`, COOP y CORP.
+- El email de contacto no aparece entero en el HTML (lo compone `site.js`) para dificultar que lo recojan robots de spam.
+- `/.well-known/security.txt` indica a quién avisar si alguien encuentra un fallo. Renovar el campo `Expires` antes de noviembre de 2027.
+- DNS: `_dmarc` con `p=reject` para que nadie pueda enviar correo haciéndose pasar por @grayzonesmapper.com.

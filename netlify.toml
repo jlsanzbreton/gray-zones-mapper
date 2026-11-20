@@ -25,12 +25,20 @@
   [headers.values]
     Cache-Control = "public, max-age=604800"
 
+# Cabeceras de seguridad para todo el sitio.
+# CSP: solo se carga lo que viene de este mismo dominio (sin scripts externos ni inline).
+# Los estilos inline se permiten porque la matriz los usa para dibujar el SVG.
 [[headers]]
   for = "/*"
   [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; manifest-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
     X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    X-Frame-Options = "SAMEORIGIN"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()"
+    Cross-Origin-Opener-Policy = "same-origin"
+    Cross-Origin-Resource-Policy = "same-origin"
 
 # Atajos cómodos para el vídeo y el curso.
 [[redirects]]
