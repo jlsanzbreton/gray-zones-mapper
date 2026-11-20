@@ -2,10 +2,11 @@
 // Páginas: primero red, y si no hay conexión, la copia guardada.
 // Recursos estáticos y fuentes: primero caché, y se actualizan en segundo plano.
 // Al cambiar cualquier archivo precacheado, sube VERSION para forzar la renovación.
-const VERSION = 'gzm-v3';
+const VERSION = 'gzm-v4';
 const PRECACHE = [
   '/',
   '/app/',
+  '/en/',
   '/manifest.webmanifest',
   '/icons/favicon.svg',
   '/icons/icon-192.png',

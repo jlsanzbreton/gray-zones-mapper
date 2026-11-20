@@ -475,6 +475,7 @@ button:focus-visible,.seg input:focus-visible+label{outline:3px solid var(--mark
     document.getElementById('lang').setAttribute('aria-label',L.langGroup);
     document.querySelectorAll('#lang button').forEach(function(b){ b.setAttribute('aria-pressed',b.dataset.lang===lang?'true':'false'); });
     document.documentElement.lang=lang;
+    document.querySelector('.back').setAttribute('href',lang==='en'?'/en/':'/');
     document.title=L.title;
   }
 

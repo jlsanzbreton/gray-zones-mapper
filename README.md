@@ -9,8 +9,9 @@ Publicado en **https://grayzonesmapper.com**.
 | Ruta | Qué es |
 |---|---|
 | `/` (`index.html`) | Landing: qué es Gray Zones, las lentes, usos y la lista de correo (Netlify Forms, formulario `lista`). |
-| `/app/` (`app/index.html`) | La matriz. Autocontenida, sin dependencias. El código va en la URL: `/app/#3332`. |
+| `/app/` (`app/index.html`) | La matriz, en español e inglés (selector ES/EN). El código y el idioma van en la URL: `/app/?lang=en#3121`. |
 | `/gracias/` | Página tras apuntarse a la lista. |
+| `/en/`, `/en/thanks/` | Landing y agradecimiento en inglés. |
 | `/diario/` | Reservado para el diario (antiguo `gray-zones-v3`). De momento redirige a la landing. |
 | `manifest.webmanifest`, `sw.js`, `icons/` | PWA instalable. Al instalarla se abre en `/app/`; funciona sin conexión. |
 | `netlify.toml` | Sitio estático sin build, cabeceras de caché y redirecciones. |
