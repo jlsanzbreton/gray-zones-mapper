@@ -15,9 +15,8 @@
 <meta property="og:image" content="https://grayzonesmapper.com/icons/og-image.png">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" href="/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<style>@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url(/fonts/inter-latin-wght-normal.woff2) format('woff2')}</style>
 <style>
 /* Paleta corporativa Gray Zones: fondo oscuro, texto crema, Inter. */
 :root{
@@ -182,7 +181,7 @@ button:focus-visible,.seg input:focus-visible+label{outline:3px solid var(--mark
   </section>
 
   <p class="note" data-i18n="note">Es una heurística para provocar la conversación, no una medida. Que un proyecto sume 12 no lo condena y sumar 4 no garantiza nada: solo indica hacia dónde se inclinan las probabilidades. La suma resume, pero un solo 3 ya es una alerta aunque el total sea moderado. La lectura de las dos mitades es una hipótesis de trabajo para probar con casos reales.</p>
-  <p class="foot">Gray Zones Mapper · <a href="https://jlsanzbreton.com">José L. Sanz Bretón</a></p>
+  <p class="foot">Gray Zones Mapper · <a href="https://jlsanzbreton.com">José L. Sanz Bretón</a> · <a class="legal" href="/legal/">Aviso legal y privacidad</a></p>
 </div>
 
 <script>
@@ -193,7 +192,7 @@ button:focus-visible,.seg input:focus-visible+label{outline:3px solid var(--mark
       title:'Gray Zones Mapper · Matriz',
       back:'← Qué es Gray Zones',
       intro:'Cuatro zonas grises, un código de cuatro cifras y una recta que muestra dónde cojea el proyecto. Elige un número por zona y mira cómo se mueve.',
-      examples:'Ejemplos', langGroup:'Idioma',
+      examples:'Ejemplos', langGroup:'Idioma', legal:'Aviso legal y privacidad', legalHref:'/legal/',
       guideH:'Cómo leer la recta',
       guideP:'Cada pareja de números da un punto: la mitad 1 junta Over-reliance y Ownership, la mitad 2 junta Uncertainty y Constraints. La recta que une los dos puntos cuenta lo que ni el código ni un solo punto dicen: si las dos mitades coinciden o se contradicen, y en qué.',
       note:'Es una heurística para provocar la conversación, no una medida. Que un proyecto sume 12 no lo condena y sumar 4 no garantiza nada: solo indica hacia dónde se inclinan las probabilidades. La suma resume, pero un solo 3 ya es una alerta aunque el total sea moderado. La lectura de las dos mitades es una hipótesis de trabajo para probar con casos reales.',
@@ -251,7 +250,7 @@ button:focus-visible,.seg input:focus-visible+label{outline:3px solid var(--mark
       title:'Gray Zones Mapper · Matrix',
       back:'← What is Gray Zones',
       intro:'Four gray zones, a four-digit code and a line that shows where the project is limping. Pick a number for each zone and watch it move.',
-      examples:'Examples', langGroup:'Language',
+      examples:'Examples', langGroup:'Language', legal:'Legal notice & privacy', legalHref:'/en/legal/',
       guideH:'How to read the line',
       guideP:'Each pair of numbers gives a point: the first half combines Over-reliance and Ownership, the second combines Uncertainty and Constraints. The line joining the two points tells you what neither the code nor a single point can: whether the two halves agree or contradict each other, and where.',
       note:'This is a heuristic to spark the conversation, not a measurement. A project scoring 12 is not doomed, and scoring 4 guarantees nothing: it only shows which way the odds lean. The total summarises, but a single 3 is already a warning even if the total is moderate. The reading of the two halves is a working hypothesis to test against real cases.',
@@ -476,6 +475,7 @@ button:focus-visible,.seg input:focus-visible+label{outline:3px solid var(--mark
     document.querySelectorAll('#lang button').forEach(function(b){ b.setAttribute('aria-pressed',b.dataset.lang===lang?'true':'false'); });
     document.documentElement.lang=lang;
     document.querySelector('.back').setAttribute('href',lang==='en'?'/en/':'/');
+    var lg=document.querySelector('.foot .legal'); lg.textContent=L.legal; lg.setAttribute('href',L.legalHref);
     document.title=L.title;
   }
 

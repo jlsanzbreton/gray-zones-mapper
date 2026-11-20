@@ -1,12 +1,13 @@
 // Service worker de Gray Zones Mapper.
 // Páginas: primero red, y si no hay conexión, la copia guardada.
-// Recursos estáticos y fuentes: primero caché, y se actualizan en segundo plano.
+// Recursos estáticos (incluida la fuente): primero caché, y se actualizan en segundo plano.
 // Al cambiar cualquier archivo precacheado, sube VERSION para forzar la renovación.
-const VERSION = 'gzm-v4';
+const VERSION = 'gzm-v5';
 const PRECACHE = [
   '/',
   '/app/',
   '/en/',
+  '/fonts/inter-latin-wght-normal.woff2',
   '/manifest.webmanifest',
   '/icons/favicon.svg',
   '/icons/icon-192.png',
@@ -31,8 +32,7 @@ self.addEventListener('fetch', (event) => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
   const sameOrigin = url.origin === self.location.origin;
-  const isFont = url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com';
-  if (!sameOrigin && !isFont) return;
+  if (!sameOrigin) return;
 
   if (req.mode === 'navigate') {
     event.respondWith(

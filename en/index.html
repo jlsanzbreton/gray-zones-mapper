@@ -20,9 +20,8 @@
 <meta property="og:url" content="https://grayzonesmapper.com/en/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" href="/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<style>@font-face{font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;src:url(/fonts/inter-latin-wght-normal.woff2) format('woff2')}</style>
 <style>
 :root{
   --paper:#000206; --panel:#0d0f14; --line:#23272f;
@@ -89,12 +88,7 @@ h2{font-size:clamp(1.4rem,3.5vw,1.9rem);line-height:1.2;letter-spacing:-.015em;m
 .use p{margin:0 0 12px;color:var(--muted);font-size:.95rem}
 .use a{font-weight:600;color:var(--mark)}
 
-/* lista */
-.signup{display:flex;flex-wrap:wrap;gap:10px;max-width:520px}
-.signup input[type=email]{flex:1 1 240px;min-width:0;padding:12px 16px;border-radius:999px;border:1.5px solid var(--line);
   background:var(--panel);color:var(--text);font:inherit}
-.signup button{padding:12px 22px;border-radius:999px;border:0;background:var(--ink);color:var(--paper);font:600 1rem var(--font);cursor:pointer}
-.hp{position:absolute;left:-9999px}
 .small{font-size:.85rem;color:var(--muted);margin-top:10px}
 
 footer{border-top:1px solid var(--line);padding:28px 0 max(36px,env(safe-area-inset-bottom,0px));color:var(--muted);font-size:.9rem}
@@ -147,23 +141,15 @@ footer a{color:var(--muted)}
     <p class="small">Every code has its own link (for example, <a href="/app/?lang=en#3121">grayzonesmapper.com/app/#3121</a>), so you can share a diagnosis as it is. You can install it on your phone or computer from the browser (“Add to Home Screen”) and it works offline.</p>
   </section>
 
-  <section aria-labelledby="t-lista" id="lista">
-    <h2 id="t-lista">Gray Zones updates</h2>
-    <p class="lead">I’m preparing more material: cases, videos and a course. If you’d like to hear about it, leave your email. No spam.</p>
-    <form class="signup" name="lista" method="POST" action="/en/thanks/" data-netlify="true" netlify-honeypot="empresa">
-      <input type="hidden" name="form-name" value="lista">
-      <input type="hidden" name="idioma" value="en">
-      <p class="hp"><label>Do not fill in <input name="empresa" tabindex="-1" autocomplete="off"></label></p>
-      <label for="email" class="hp">Email address</label>
-      <input id="email" type="email" name="email" required placeholder="you@email.com" autocomplete="email">
-      <button type="submit">Sign me up</button>
-    </form>
-    <p class="small">I only use your email to tell you about Gray Zones updates. You can unsubscribe at any time.</p>
+  <section aria-labelledby="t-contact" id="contact">
+    <h2 id="t-contact">Want to know more?</h2>
+    <p class="lead">If you’re interested and would like to know more about how to implement Gray Zones in your team or organisation, write to me.</p>
+    <a class="btn primary" href="mailto:hola@jlsanzbreton.com?subject=Gray%20Zones">hola@jlsanzbreton.com</a>
   </section>
 </main>
 
 <footer>
-  <div class="wrap">Gray Zones · <a href="https://jlsanzbreton.com">José L. Sanz Bretón</a></div>
+  <div class="wrap">Gray Zones · <a href="https://jlsanzbreton.com">José L. Sanz Bretón</a> · <a href="/en/legal/">Legal notice &amp; privacy</a></div>
 </footer>
 
 <script>
