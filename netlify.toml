@@ -41,6 +41,32 @@
     Cross-Origin-Resource-Policy = "same-origin"
 
 # Atajos cómodos para el vídeo y el curso.
+# El dominio antiguo (sin «s») redirige siempre al principal, conservando la ruta.
+[[redirects]]
+  from = "https://grayzonemapper.com/*"
+  to = "https://grayzonesmapper.com/:splat"
+  status = 301
+  force = true
+
+# Archivos del repo que no deben servirse en la web.
+[[redirects]]
+  from = "/README.md"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/PENDIENTES.md"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/.gitignore"
+  to = "/404"
+  status = 404
+  force = true
+
 [[redirects]]
   from = "/app"
   to = "/app/"
