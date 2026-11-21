@@ -26,7 +26,7 @@ Estado a 21-11-2026: **publicado**. El sitio `grayzones` de Netlify despliega `m
 - [ ] Instalar la app en el móvil ("Añadir a pantalla de inicio"): icono de la espiral, abre en la matriz y funciona sin conexión.
 - [ ] Mandar un correo de prueba a `hola@grayzonesmapper.com` (reenvío de Porkbun a Gmail).
 - [ ] Mandar un correo de prueba a `hola@jlsanzbreton.com` (reenvío recién configurado).
-- [ ] Activar la verificación en dos pasos en GitHub, Netlify y Porkbun, si no está ya.
+- [x] Verificación en dos pasos activa en Netlify y Porkbun. En GitHub, José cree que también: confirmarlo en github.com/settings/security.
 
 ## 4. Después
 
