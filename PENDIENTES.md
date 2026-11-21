@@ -1,23 +1,24 @@
 # Pendientes
 
-Estado a 21-11-2026: todo el trabajo está en `main` y `dev` (iguales). grayzonesmapper.com todavía sirve el diario viejo (`gray-zones-v3`) porque el sitio de Netlify sigue enlazado a ese repo.
+Estado a 21-11-2026: **publicado**. El sitio `grayzones` de Netlify despliega `main` en grayzonesmapper.com, y `dev` tiene vista previa en `dev--grayzones.netlify.app`.
 
-## 1. Publicar (Netlify, sitio `grayzones`): lo hace José
+## 1. Publicar (Netlify, sitio `grayzones`): hecho
 
-- [ ] **Deploy settings → Repository:** enlazar a `jlsanzbreton/gray-zones-mapper`.
+- [x] **Deploy settings → Repository:** enlazar a `jlsanzbreton/gray-zones-mapper`.
   - Build command: vacío
   - Publish directory: `.`
   - Production branch: `main`
-- [ ] **Branch deploys:** activar para `dev` (vista previa en `dev--grayzones.netlify.app`).
-- [ ] **Domain management:** poner `grayzonesmapper.com` como dominio **principal**. grayzonemapper.com y los `www` redirigen a él.
+- [x] **Branch deploys:** activar para `dev` (vista previa en `dev--grayzones.netlify.app`).
+- [x] **Domain management:** poner `grayzonesmapper.com` como dominio **principal**. grayzonemapper.com y los `www` redirigen a él.
 - (Forms no hace falta: ya no hay formulario.)
 
 ## 2. Comprobar en producción: Claude
 
-- [ ] Cabeceras de seguridad (CSP, HSTS, etc.) aplicadas en `https://grayzonesmapper.com`.
-- [ ] Landing, matriz y aviso legal cargan en ES y EN, sin errores de CSP en la consola.
-- [ ] Redirecciones: grayzonemapper.com → grayzonesmapper.com, `/matriz` → `/app/`, `/diario/` → `/`.
-- [ ] HTTPS válido también en `www.grayzonesmapper.com`.
+- [x] Cabeceras de seguridad (CSP, HSTS, etc.) aplicadas en `https://grayzonesmapper.com`.
+- [x] Landing, matriz y aviso legal cargan en ES y EN, sin errores de CSP en la consola.
+- [x] Redirecciones: `www` → raíz, `http` → `https`, `/matriz` → `/app/`, `/diario/` → `/`.
+- [ ] grayzonemapper.com (sin «s») → grayzonesmapper.com: la regla está en `netlify.toml`; comprobar cuando llegue a `main`.
+- [x] HTTPS válido también en `www.grayzonesmapper.com`.
 
 ## 3. Comprobar a mano: José
 
