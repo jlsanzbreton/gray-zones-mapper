@@ -17,7 +17,8 @@ Estado a 21-11-2026: **publicado**. El sitio `grayzones` de Netlify despliega `m
 - [x] Cabeceras de seguridad (CSP, HSTS, etc.) aplicadas en `https://grayzonesmapper.com`.
 - [x] Landing, matriz y aviso legal cargan en ES y EN, sin errores de CSP en la consola.
 - [x] Redirecciones: `www` → raíz, `http` → `https`, `/matriz` → `/app/`, `/diario/` → `/`.
-- [ ] grayzonemapper.com (sin «s») → grayzonesmapper.com: la regla está en `netlify.toml`; comprobar cuando llegue a `main`.
+- [x] grayzonemapper.com (sin «s») → grayzonesmapper.com, conservando la ruta.
+- [x] README.md y PENDIENTES.md no se sirven en la web (404).
 - [x] HTTPS válido también en `www.grayzonesmapper.com`.
 
 ## 3. Comprobar a mano: José
