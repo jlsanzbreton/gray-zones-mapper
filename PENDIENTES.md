@@ -30,7 +30,10 @@ Estado a 21-11-2026: **publicado**. El sitio `grayzones` de Netlify despliega `m
 
 ## 4. Después
 
-- [ ] Enlazar Gray Zones desde jlsanzbreton.com: hecho en la rama `feat/gray-zones-section` de `jose-website` (sección 05, enfocada en crisis y siniestros). Falta abrir el PR a `main`, revisar la vista previa y fusionar.
+- [x] Enlazar Gray Zones desde jlsanzbreton.com: sección 05 (PR 17, fusionado el 22-11-2026), con versión inglesa en /en/, tono de autoría, sin nombre de empresa ni CV, y cabeceras de seguridad.
+- [x] Enlaces de vuelta desde grayzonesmapper.com a jlsanzbreton.com (o /en/), con línea de autoría y datos estructurados.
+- [ ] jose-website: al abrir desde fuera una dirección con `#sección` (p. ej. `jlsanzbreton.com/#gray-zones`), la página no baja a la sección. Ya pasaba antes con `#cascade`; está en `utils/scroll.ts` (`useHashScroll`).
+- [ ] Risks In Sync: enlace de autoría a jlsanzbreton.com/en/ (bloque en About, pie y datos estructurados). Propuesto como tarea aparte.
 - [ ] Traer el diario (`gray-zones-v3`) a `/diario/`, adaptado a la matriz. Lentes en inglés.
 - [ ] Ejemplos de crisis y siniestros en la matriz (ES/EN), para el vídeo de crisis management, y orientar la landing de grayzonesmapper.com en esa línea.
 - [ ] Rehacer el teaser PDF (`jose-website/public/assets/gray-zones-teaser.pdf`): describe el diario viejo (lentes en español, nivel de niebla 1–7), no la matriz actual. Ya no se enlaza desde la web ni desde `llms.txt`.
