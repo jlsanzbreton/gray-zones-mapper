@@ -88,7 +88,9 @@ section[id]{scroll-margin-top:72px}
 .hero svg{width:80px;height:80px;color:var(--ink)}
 .hero h1{font-size:clamp(2.2rem,7vw,3.6rem);line-height:1.05;letter-spacing:-.03em;margin:18px 0 14px;color:var(--ink)}
 .hero .tag{font-size:clamp(1.05rem,2.6vw,1.3rem);max-width:40ch;margin:0 auto 10px}
-.hero .def{color:var(--muted);max-width:52ch;margin:0 auto 32px}
+.hero .def{color:var(--muted);max-width:52ch;margin:0 auto 14px}
+.hero .by{color:var(--muted);font-size:.88rem;margin:0 auto 30px}
+.hero .by a{color:var(--ink);text-underline-offset:.2em}
 .ctas{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
 .btn{display:inline-block;padding:13px 22px;border-radius:999px;font-weight:600;text-decoration:none;border:1.5px solid var(--ink)}
 .btn.primary{background:var(--ink);color:var(--paper)}
@@ -123,6 +125,9 @@ section[id]{scroll-margin-top:72px}
 footer{border-top:1px solid var(--line);padding:28px 0 max(36px,env(safe-area-inset-bottom,0px));color:var(--muted);font-size:.9rem}
 footer a{color:var(--muted)}
 </style>
+<meta name="author" content="José L. Sanz Bretón">
+<link rel="author" href="https://jlsanzbreton.com/">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Gray Zones Mapper", "url": "https://grayzonesmapper.com/", "inLanguage": "es", "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "isAccessibleForFree": true, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "author": {"@type": "Person", "name": "José L. Sanz Bretón", "url": "https://jlsanzbreton.com/", "sameAs": ["https://jlsanzbreton.com/en/", "https://www.linkedin.com/in/jlsanz/", "https://risksinsync.com/"]}, "creator": {"@type": "Person", "name": "José L. Sanz Bretón", "url": "https://jlsanzbreton.com/", "sameAs": ["https://jlsanzbreton.com/en/", "https://www.linkedin.com/in/jlsanz/", "https://risksinsync.com/"]}}</script>
 </head>
 <body>
 <div class="bar"><div class="wrap">
@@ -136,6 +141,7 @@ footer a{color:var(--muted)}
     <h1>Gray Zones Mapper</h1>
     <p class="tag">Cuatro lentes, un código de cuatro cifras y una recta que muestra dónde cojea un proyecto.</p>
     <p class="def">Las zonas grises son aquellas a las que dedicamos insuficiente materia gris. Esta matriz te ayuda a verlas antes de que se conviertan en el problema.</p>
+    <p class="by">Un método de <a href="https://jlsanzbreton.com/#gray-zones">José L. Sanz Bretón</a></p>
     <div class="ctas">
       <a class="btn primary" href="/app/?lang=es">Abrir la matriz</a>
       <a class="btn ghost" href="/app/?lang=es#3121">Ver un ejemplo</a>
@@ -183,7 +189,7 @@ footer a{color:var(--muted)}
 </main>
 
 <footer>
-  <div class="wrap">Gray Zones · <a href="https://jlsanzbreton.com">José L. Sanz Bretón</a> · <a href="/legal/">Aviso legal y privacidad</a></div>
+  <div class="wrap">Gray Zones · <a href="https://jlsanzbreton.com/">José L. Sanz Bretón</a> · <a href="/legal/">Aviso legal y privacidad</a></div>
 </footer>
 
 <button class="back-to-top" type="button" aria-label="Volver arriba" aria-hidden="true" tabindex="-1">↑</button>

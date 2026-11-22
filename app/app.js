@@ -6,7 +6,7 @@
       title:'Gray Zones Mapper · Matriz',
       back:'← Qué es Gray Zones',
       intro:'Cuatro zonas grises, un código de cuatro cifras y una recta que muestra dónde cojea el proyecto. Elige un número por zona y mira cómo se mueve.',
-      examples:'Ejemplos', langGroup:'Idioma', legal:'Aviso legal y privacidad', legalHref:'/legal/',
+      examples:'Ejemplos', langGroup:'Idioma', legal:'Aviso legal y privacidad', legalHref:'/legal/', authorHref:'https://jlsanzbreton.com/',
       guideH:'Cómo leer la recta',
       guideP:'Cada pareja de números da un punto: la mitad 1 junta Over-reliance y Ownership, la mitad 2 junta Uncertainty y Constraints. La recta que une los dos puntos cuenta lo que ni el código ni un solo punto dicen: si las dos mitades coinciden o se contradicen, y en qué.',
       note:'Es una heurística para provocar la conversación, no una medida. Que un proyecto sume 12 no lo condena y sumar 4 no garantiza nada: solo indica hacia dónde se inclinan las probabilidades. La suma resume, pero un solo 3 ya es una alerta aunque el total sea moderado. La lectura de las dos mitades es una hipótesis de trabajo para probar con casos reales.',
@@ -64,7 +64,7 @@
       title:'Gray Zones Mapper · Matrix',
       back:'← What is Gray Zones',
       intro:'Four gray zones, a four-digit code and a line that shows where the project is limping. Pick a number for each zone and watch it move.',
-      examples:'Examples', langGroup:'Language', legal:'Legal notice & privacy', legalHref:'/en/legal/',
+      examples:'Examples', langGroup:'Language', legal:'Legal notice & privacy', legalHref:'/en/legal/', authorHref:'https://jlsanzbreton.com/en/',
       guideH:'How to read the line',
       guideP:'Each pair of numbers gives a point: the first half combines Over-reliance and Ownership, the second combines Uncertainty and Constraints. The line joining the two points tells you what neither the code nor a single point can: whether the two halves agree or contradict each other, and where.',
       note:'This is a heuristic to spark the conversation, not a measurement. A project scoring 12 is not doomed, and scoring 4 guarantees nothing: it only shows which way the odds lean. The total summarises, but a single 3 is already a warning even if the total is moderate. The reading of the two halves is a working hypothesis to test against real cases.',
@@ -290,6 +290,7 @@
     document.documentElement.lang=lang;
     document.querySelector('.back').setAttribute('href',lang==='en'?'/en/':'/');
     var lg=document.querySelector('.foot .legal'); lg.textContent=L.legal; lg.setAttribute('href',L.legalHref);
+    document.querySelector('.foot .author').setAttribute('href',L.authorHref);
     document.title=L.title;
   }
 
