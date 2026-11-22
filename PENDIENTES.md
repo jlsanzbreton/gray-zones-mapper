@@ -32,7 +32,6 @@ Estado a 21-11-2026: **publicado**. El sitio `grayzones` de Netlify despliega `m
 
 - [x] Enlazar Gray Zones desde jlsanzbreton.com: sección 05 (PR 17, fusionado el 22-11-2026), con versión inglesa en /en/, tono de autoría, sin nombre de empresa ni CV, y cabeceras de seguridad.
 - [x] Enlaces de vuelta desde grayzonesmapper.com a jlsanzbreton.com (o /en/), con línea de autoría y datos estructurados.
-- [ ] jose-website: al abrir desde fuera una dirección con `#sección` (p. ej. `jlsanzbreton.com/#gray-zones`), la página no baja a la sección. Ya pasaba antes con `#cascade`; está en `utils/scroll.ts` (`useHashScroll`).
 - [ ] Risks In Sync: enlace de autoría a jlsanzbreton.com/en/ (bloque en About, pie y datos estructurados). Propuesto como tarea aparte.
 - [ ] Traer el diario (`gray-zones-v3`) a `/diario/`, adaptado a la matriz. Lentes en inglés.
 - [ ] Ejemplos de crisis y siniestros en la matriz (ES/EN), para el vídeo de crisis management, y orientar la landing de grayzonesmapper.com en esa línea.
